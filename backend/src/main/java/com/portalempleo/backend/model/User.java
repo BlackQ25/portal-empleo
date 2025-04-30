@@ -1,7 +1,7 @@
 package com.portalempleo.backend.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 @Entity
 @Table(name = "users")
@@ -12,13 +12,15 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String username;
+    private String name;
 
     private String email;
 
     private String password;
 
-    private int phone;
+    private String phone;
+
+    private String address;
 
     @ManyToOne
     @JoinColumn(name = "role_id")  // Foreign Key apuntando a la tabla roles

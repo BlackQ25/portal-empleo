@@ -14,15 +14,18 @@ public class RoleController {
 
     public RoleController(RoleService roleService) {
         this.roleService = roleService;
+
     }
 
     @GetMapping
     public List<Role> getAllRoles() {
         return roleService.getAllRoles();
+
     }
 
     @PostMapping
     public Role createRole(@RequestBody Role role) {
         return roleService.saveRole(role);
+
     }
 }

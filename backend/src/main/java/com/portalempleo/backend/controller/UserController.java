@@ -14,15 +14,18 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
+
     }
 
     @GetMapping
     public List<User> getAllUsers() {
         return userService.getAllUsers();
+
     }
 
     @PostMapping
     public User createUser(@RequestBody User user) {
         return userService.saveUser(user);
+
     }
 }

@@ -4,7 +4,7 @@ import com.portalempleo.backend.model.Role;
 import com.portalempleo.backend.repository.RoleRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 public class RoleService {
@@ -13,13 +13,16 @@ public class RoleService {
 
     public RoleService(RoleRepository roleRepository) {
         this.roleRepository = roleRepository;
+
     }
 
     public List<Role> getAllRoles() {
         return roleRepository.findAll();
+
     }
 
     public Role saveRole(Role role) {
         return roleRepository.save(role);
+
     }
 }
