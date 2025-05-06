@@ -1,37 +1,49 @@
 package com.portalempleo.backend.service;
 
 import com.portalempleo.backend.model.JobOffer;
-import org.springframework.stereotype.Service;
 import com.portalempleo.backend.repository.JobOfferRepository;
-import java.util.*;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class JobOfferService {
 
     private final JobOfferRepository jobOfferRepository;
 
-    public JobOfferService (JobOfferRepository jobOfferRepository){
+    public JobOfferService(JobOfferRepository jobOfferRepository) {
         this.jobOfferRepository = jobOfferRepository;
     }
 
-    public List <JobOffer> getAllOffers(){
+    public List<JobOffer> getAllJobOffers() {
         return jobOfferRepository.findAll();
     }
 
-    public JobOffer saveOffer(JobOffer jobOffer){
+    public Optional<JobOffer> getJobOfferById(Long id) {
+        return jobOfferRepository.findById(id);
+    }
+
+    public JobOffer saveJobOffer(JobOffer jobOffer) {
         return jobOfferRepository.save(jobOffer);
     }
 
-    public void deleteOfferById(Long id) {
+    public JobOffer updateJobOffer(Long id, JobOffer updatedJobOffer) {
+        return jobOfferRepository.findById(id)
+                .map(existing -> {
+                    existing.setTitle(updatedJobOffer.getTitle());
+                    existing.setDescription(updatedJobOffer.getDescription());
+                    existing.setSalary(updatedJobOffer.getSalary());
+                    existing.setPublishedAt(updatedJobOffer.getPublishedAt());
+                    existing.setCompany(updatedJobOffer.getCompany());
+                    existing.setLocation(updatedJobOffer.getLocation());
+                    existing.setCategory(updatedJobOffer.getCategory());
+                    return jobOfferRepository.save(existing);
+                })
+                .orElseThrow(() -> new IllegalArgumentException("Job offer not found"));
+    }
+
+    public void deleteJobOffer(Long id) {
         jobOfferRepository.deleteById(id);
     }
-
-    public JobOffer updateOffer(JobOffer jobOffer) {
-        if (jobOfferRepository.existsById(jobOffer.getId())) {
-            return jobOfferRepository.save(jobOffer);
-        } else {
-            throw new NoSuchElementException("Job offer with ID " + jobOffer.getId() + " not found.");
-        }
-    }
-
 }
