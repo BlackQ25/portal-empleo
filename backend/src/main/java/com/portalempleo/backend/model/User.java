@@ -20,11 +20,8 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private RoleType role;
+    private String role;
 
-    public enum RoleType {
-        candidate, company, admin
-    }
+
 }

@@ -1,11 +1,12 @@
 package com.portalempleo.backend.service;
 
-import com.portalempleo.backend.model.JobOffer;
+import com.portalempleo.backend.model.*;
 import com.portalempleo.backend.repository.JobOfferRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 
 @Service
 public class JobOfferService {
@@ -36,11 +37,23 @@ public class JobOfferService {
         return jobOfferRepository.findByCategory_Id(categoryId);
     }
 
-    public JobOffer saveJobOffer(JobOffer jobOffer) {
+    /**
+     * Solo company puede crear oferta
+     */
+    public JobOffer saveJobOffer(JobOffer jobOffer, User user) {
+        if (!user.getRole().equals("company")) {
+            throw new IllegalArgumentException("Solo las compañías pueden crear ofertas.");
+        }
         return jobOfferRepository.save(jobOffer);
     }
 
-    public void deleteJobOffer(Long id) {
+    /**
+     * Solo company puede eliminar oferta
+     */
+    public void deleteJobOffer(Long id, User user) {
+        if (!user.getRole().equals("company")) {
+            throw new IllegalArgumentException("Solo las compañías pueden eliminar ofertas.");
+        }
         jobOfferRepository.deleteById(id);
     }
 
@@ -59,5 +72,4 @@ public class JobOfferService {
     public List<JobOffer> getByCityStateCategory(Long cityId, Long stateId, Long categoryId) {
         return jobOfferRepository.findByCity_IdAndState_IdAndCategory_Id(cityId, stateId, categoryId);
     }
-
 }

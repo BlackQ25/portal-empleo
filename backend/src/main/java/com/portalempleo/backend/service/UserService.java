@@ -35,7 +35,7 @@ public class UserService {
         Object profileData;
 
         switch (user.getRole()) {
-            case candidate -> {
+            case "candidate" -> {
                 Candidate candidate = candidateRepository.findById(user.getId())
                         .orElseThrow(() -> new RuntimeException("Candidate profile not found"));
                 profileData = Map.of(
@@ -48,7 +48,7 @@ public class UserService {
                         "birthDate", candidate.getBirthDate()
                 );
             }
-            case company -> {
+            case "company" -> {
                 Company company = companyRepository.findById(user.getId())
                         .orElseThrow(() -> new RuntimeException("Company profile not found"));
                 profileData = Map.of(
@@ -59,7 +59,7 @@ public class UserService {
                         "address", company.getAddress()
                 );
             }
-            case admin -> {
+            case "admin" -> {
                 Admin admin = adminRepository.findById(user.getId())
                         .orElseThrow(() -> new RuntimeException("Admin profile not found"));
                 profileData = Map.of(
@@ -69,6 +69,11 @@ public class UserService {
             default -> throw new RuntimeException("Unknown role: " + user.getRole());
         }
 
-        return new UserProfileDTO(user.getId(), user.getEmail(), user.getRole().name(), profileData);
+        return new UserProfileDTO(user.getId(), user.getEmail(), user.getRole(), profileData);
+    }
+
+    public User getUserById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado con ID: " + id));
     }
 }
