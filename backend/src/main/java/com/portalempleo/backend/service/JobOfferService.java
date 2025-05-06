@@ -24,26 +24,40 @@ public class JobOfferService {
         return jobOfferRepository.findById(id);
     }
 
-    public JobOffer saveJobOffer(JobOffer jobOffer) {
-        return jobOfferRepository.save(jobOffer);
+    public List<JobOffer> getJobOffersByCity(Long cityId) {
+        return jobOfferRepository.findByCity_Id(cityId);
     }
 
-    public JobOffer updateJobOffer(Long id, JobOffer updatedJobOffer) {
-        return jobOfferRepository.findById(id)
-                .map(existing -> {
-                    existing.setTitle(updatedJobOffer.getTitle());
-                    existing.setDescription(updatedJobOffer.getDescription());
-                    existing.setSalary(updatedJobOffer.getSalary());
-                    existing.setPublishedAt(updatedJobOffer.getPublishedAt());
-                    existing.setCompany(updatedJobOffer.getCompany());
-                    existing.setLocation(updatedJobOffer.getLocation());
-                    existing.setCategory(updatedJobOffer.getCategory());
-                    return jobOfferRepository.save(existing);
-                })
-                .orElseThrow(() -> new IllegalArgumentException("Job offer not found"));
+    public List<JobOffer> getJobOffersByState(Long stateId) {
+        return jobOfferRepository.findByState_Id(stateId);
+    }
+
+    public List<JobOffer> getJobOffersByCategory(Long categoryId) {
+        return jobOfferRepository.findByCategory_Id(categoryId);
+    }
+
+    public JobOffer saveJobOffer(JobOffer jobOffer) {
+        return jobOfferRepository.save(jobOffer);
     }
 
     public void deleteJobOffer(Long id) {
         jobOfferRepository.deleteById(id);
     }
+
+    public List<JobOffer> getByCityAndState(Long cityId, Long stateId) {
+        return jobOfferRepository.findByCity_IdAndState_Id(cityId, stateId);
+    }
+
+    public List<JobOffer> getByCityAndCategory(Long cityId, Long categoryId) {
+        return jobOfferRepository.findByCity_IdAndCategory_Id(cityId, categoryId);
+    }
+
+    public List<JobOffer> getByStateAndCategory(Long stateId, Long categoryId) {
+        return jobOfferRepository.findByState_IdAndCategory_Id(stateId, categoryId);
+    }
+
+    public List<JobOffer> getByCityStateCategory(Long cityId, Long stateId, Long categoryId) {
+        return jobOfferRepository.findByCity_IdAndState_IdAndCategory_Id(cityId, stateId, categoryId);
+    }
+
 }

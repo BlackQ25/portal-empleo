@@ -3,7 +3,7 @@ package com.portalempleo.backend.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "job_offers")
@@ -16,6 +16,7 @@ public class JobOffer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String title;
 
     @Column(columnDefinition = "TEXT")
@@ -24,17 +25,21 @@ public class JobOffer {
     private Long salary;
 
     @Column(name = "published_at")
-    private LocalDateTime publishedAt;
+    private Timestamp publishedAt;
 
     @ManyToOne
     @JoinColumn(name = "company_id", nullable = false)
     private Company company;
 
     @ManyToOne
-    @JoinColumn(name = "location_id", nullable = false)
-    private Location location;
-
-    @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "city_id", nullable = false)
+    private City city;
+
+    @ManyToOne
+    @JoinColumn(name = "state_id", nullable = false)
+    private State state;
 }

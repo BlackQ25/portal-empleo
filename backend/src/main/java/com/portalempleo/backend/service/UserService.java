@@ -1,11 +1,12 @@
 package com.portalempleo.backend.service;
 
+import com.portalempleo.backend.dto.UserProfileDTO;
 import com.portalempleo.backend.model.*;
 import com.portalempleo.backend.repository.*;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.security.Principal;
+import java.util.Map;
 
 @Service
 public class UserService {
@@ -25,69 +26,49 @@ public class UserService {
         this.adminRepository = adminRepository;
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
+    public UserProfileDTO getAuthenticatedUserProfile(Principal principal) {
+        String email = principal.getName();
 
-    public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
-    }
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-    public User createUser(User user, Object roleData) {
-        if (userRepository.existsByEmail(user.getEmail())) {
-            throw new IllegalArgumentException("Email already exists");
-        }
+        Object profileData;
 
-        // guardar primero en la tabla padre
-        User savedUser = userRepository.save(user);
-
-        // segun el rol, se guarda en la tabla hija que corresponde
         switch (user.getRole()) {
             case candidate -> {
-                if (roleData instanceof Candidate candidate) {
-                    candidate.setUser(savedUser);
-                    candidateRepository.save(candidate);
-                } else {
-                    throw new IllegalArgumentException("Candidate data is missing or invalid");
-                }
+                Candidate candidate = candidateRepository.findById(user.getId())
+                        .orElseThrow(() -> new RuntimeException("Candidate profile not found"));
+                profileData = Map.of(
+                        "name", candidate.getName(),
+                        "phone", candidate.getPhone(),
+                        "address", candidate.getAddress(),
+                        "resume", candidate.getResume(),
+                        "skills", candidate.getSkills(),
+                        "experience", candidate.getExperience(),
+                        "birthDate", candidate.getBirthDate()
+                );
             }
             case company -> {
-                if (roleData instanceof Company company) {
-                    company.setUser(savedUser);
-                    companyRepository.save(company);
-                } else {
-                    throw new IllegalArgumentException("Company data is missing or invalid");
-                }
+                Company company = companyRepository.findById(user.getId())
+                        .orElseThrow(() -> new RuntimeException("Company profile not found"));
+                profileData = Map.of(
+                        "companyName", company.getCompanyName(),
+                        "companyDescription", company.getCompanyDescription(),
+                        "website", company.getWebsite(),
+                        "phone", company.getPhone(),
+                        "address", company.getAddress()
+                );
             }
             case admin -> {
-                if (roleData instanceof Admin admin) {
-                    admin.setUser(savedUser);
-                    adminRepository.save(admin);
-                } else {
-                    throw new IllegalArgumentException("Admin data is missing or invalid");
-                }
+                Admin admin = adminRepository.findById(user.getId())
+                        .orElseThrow(() -> new RuntimeException("Admin profile not found"));
+                profileData = Map.of(
+                        "name", admin.getName()
+                );
             }
-            default -> throw new IllegalArgumentException("Unknown role: " + user.getRole());
+            default -> throw new RuntimeException("Unknown role: " + user.getRole());
         }
 
-        return savedUser;
-    }
-
-    public User updateUser(Long id, User updatedUser) {
-        return userRepository.findById(id)
-                .map(existingUser -> {
-                    existingUser.setEmail(updatedUser.getEmail());
-                    existingUser.setPassword(updatedUser.getPassword());
-                    existingUser.setRole(updatedUser.getRole());
-                    return userRepository.save(existingUser);
-                })
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
-    }
-
-    public void deleteUser(Long id) {
-        if (!userRepository.existsById(id)) {
-            throw new IllegalArgumentException("User not found");
-        }
-        userRepository.deleteById(id);
+        return new UserProfileDTO(user.getId(), user.getEmail(), user.getRole().name(), profileData);
     }
 }
