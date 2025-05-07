@@ -38,7 +38,7 @@ public class JobOfferService {
     }
 
     /**
-     * Solo company puede crear oferta
+     * solo user company puede crear oferta
      */
     public JobOffer saveJobOffer(JobOffer jobOffer, User user) {
         if (!user.getRole().equals("company")) {
@@ -48,7 +48,7 @@ public class JobOfferService {
     }
 
     /**
-     * Solo company puede eliminar oferta
+     * solo user company puede eliminar oferta
      */
     public void deleteJobOffer(Long id, User user) {
         if (!user.getRole().equals("company")) {
@@ -57,6 +57,8 @@ public class JobOfferService {
         jobOfferRepository.deleteById(id);
     }
 
+
+    // apartado de filtros
     public List<JobOffer> getByCityAndState(Long cityId, Long stateId) {
         return jobOfferRepository.findByCity_IdAndState_Id(cityId, stateId);
     }

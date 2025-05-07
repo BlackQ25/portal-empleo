@@ -12,8 +12,7 @@ public interface JobOfferRepository extends JpaRepository<JobOffer, Long> {
     List<JobOffer> findByCity_Id(Long cityId);
     List<JobOffer> findByState_Id(Long stateId);
     List<JobOffer> findByCategory_Id(Long categoryId);
-    List<JobOffer> findByCompany_Id(Long companyId);
-
+    //List<JobOffer> findByCompany_UserId(Long userId);
     List<JobOffer> findByCity_IdAndState_Id(Long cityId, Long stateId);
     List<JobOffer> findByCity_IdAndCategory_Id(Long cityId, Long categoryId);
     List<JobOffer> findByState_IdAndCategory_Id(Long stateId, Long categoryId);
