@@ -1,28 +1,111 @@
-.login-container {
-    max-width: 300px;
-    margin: 4rem auto;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  
-    input {
-      padding: 0.5rem;
-      font-size: 1rem;
-    }
-  
-    button {
-      background-color: #003DF6;
-      color: white;
-      border: none;
-      padding: 0.6rem;
-      font-weight: bold;
-      cursor: pointer;
-    }
-  
-    .error {
-      color: red;
-      text-align: center;
-      margin-top: 1rem;
-    }
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;     // centra verticalmente
+  align-items: center;         // centra horizontalmente
+  height: 100vh;               // ocupa toda la altura de la pantalla
+  background-color: lightblue;
+
+  p {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
   }
-  
+
+  .spinner {
+    width: 60px;
+    height: 60px;
+    border: 6px solid #ccc;
+    border-top: 6px solid #003DF6;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+}
+
+.login-container {
+  display: flex;
+  justify-content: center; // centro horizontal
+  align-items: center; // centro vertical
+  height: 100vh;
+  text-align: center;
+  background-color: lightblue;
+}
+
+.form-container {
+  background-color: white;
+  padding: 2px;
+  border: 2px solid black;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  width: 50%;
+  height: 40%;
+  text-align: center;
+}
+
+h1,
+h2 {
+  border-bottom: 2px solid black;
+}
+
+.form-fields {
+  display: flex;
+  flex-direction: column;      
+  align-items: center;        
+  gap: 15px;                   
+  margin-top: 70px;
+}
+
+input {
+  width: 100%;
+  max-width: 450px;
+  height: 40px;
+  font-size: 16px;
+  padding: 0 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+
+.login-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  max-width: 400px;
+  margin: 50px auto 0;
+  padding: 0 1rem; 
+}
+
+
+.register-link {
+  color: #003DF6;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.register-link:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+
+button {
+  padding: 0.6rem 1.2rem;
+  background-color: #003DF6;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
