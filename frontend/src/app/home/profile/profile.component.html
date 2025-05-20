@@ -1,0 +1,23 @@
+<div class="profile-container" *ngIf="profileData">
+  <h2>Perfil de Usuario</h2>
+
+  <div class="profile-box">
+    <p><strong>Email:</strong> {{ profileData.email }}</p>
+    <p><strong>Rol:</strong> {{ profileData.role }}</p>
+
+    <!-- Datos según rol -->
+    <div *ngIf="role === 'candidate'" class="profile-section">
+      <p><strong>Nombre:</strong> {{ profileData.profile.name }}</p>
+      <p><strong>Apellidos:</strong> {{ profileData.profile.surname }}</p>
+    </div>
+
+    <div *ngIf="role === 'company'" class="profile-section">
+      <p><strong>Empresa:</strong> {{ profileData.profile.companyName }}</p>
+      <p><strong>CIF:</strong> {{ profileData.profile.cif }}</p>
+    </div>
+
+    <div *ngIf="role === 'admin'" class="profile-section">
+      <p><strong>ID de Administrador:</strong> {{ profileData.profile.id }}</p>
+    </div>
+  </div>
+</div>

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly storageKey = 'userEmail';
+  private readonly roleKey = 'userRole';
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem(this.storageKey);
@@ -16,7 +17,12 @@ export class AuthService {
     localStorage.removeItem(this.storageKey);
   }
 
-  getUserEmail(): string | null {
+    getUserEmail(): string | null {
     return localStorage.getItem(this.storageKey);
   }
+
+  getUserRole(): string | null {
+    return localStorage.getItem(this.roleKey);
+  }
+  
 }

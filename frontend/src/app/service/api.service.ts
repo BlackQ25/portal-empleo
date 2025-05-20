@@ -28,4 +28,9 @@ export class ApiService {
     return this.http.get<any[]>(`${this.baseUrl}/states`);
   }
 
+  getUserProfile() {
+  return this.http.get<any>(`${this.baseUrl}/users/me`, { withCredentials: true });
+}
+
+
 }
