@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { ApiService } from '../../service/api.service';
 import { AuthService } from '../../service/auth.service';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-login',
@@ -12,14 +13,14 @@ import { AuthService } from '../../service/auth.service';
 export class LoginComponent {
   loginForm: FormGroup;
   errorMessage = '';
-
   isLoading = false;
 
   constructor(
     private fb: FormBuilder,
-    private http: HttpClient,
+    private apiService: ApiService,
+    private authService: AuthService,
     private router: Router,
-    private authService: AuthService
+    private cdr: ChangeDetectorRef
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -28,26 +29,34 @@ export class LoginComponent {
   }
 
   onSubmit(): void {
-    if (this.loginForm.invalid) return;
+    if (this.loginForm.invalid) {
+      // Marca los campos como tocados para que se muestren los errores
+      this.loginForm.markAllAsTouched();
+      return;
+    }
 
     const { email, password } = this.loginForm.value;
     this.isLoading = true;
 
-    this.http
-      .post<any>('http://localhost:8080/api/auth/login', { email, password })
-      .subscribe({
-        next: () => {
-          setTimeout(() => {
-            this.authService.setLogin(email);
-            this.router.navigate(['/board']);
-            this.isLoading = false;
-          }, 2000);
-        },
-        error: () => {
+    this.apiService.login(email, password).subscribe({
+      next: (res: any) => {
+        if (res.success === false) {
+          this.errorMessage = res.message || 'Credenciales incorrectas';
+        } else {
+          this.authService.setLogin(email);
+          this.router.navigate(['/board']);
+        }
+        this.isLoading = false;
+      },
+      error: (err) => {
+        if (err.status === 401 || err.status === 403) {
           this.errorMessage = 'Credenciales incorrectas';
-          this.isLoading = false;
-        },
-      });
+        } else {
+          this.errorMessage = 'Error del servidor. Intenta más tarde.';
+        }
+        this.isLoading = false;
+      },
+    });
   }
 
   goToRegister(): void {

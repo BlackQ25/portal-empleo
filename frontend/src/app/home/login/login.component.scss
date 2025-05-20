@@ -29,58 +29,59 @@
 
 .login-container {
   display: flex;
-  justify-content: center; // centro horizontal
-  align-items: center; // centro vertical
+  justify-content: center;
+  align-items: center;
   height: 100vh;
-  text-align: center;
   background-color: lightblue;
 }
 
 .form-container {
   background-color: white;
-  padding: 2px;
+  padding: 2rem;
   border: 2px solid black;
   border-radius: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-  width: 50%;
-  height: 40%;
+  width: 90%;
+  max-width: 600px;
+  min-height: 250px;
   text-align: center;
 }
 
-h1,
-h2 {
+h1 {
+  margin-bottom: 1rem; // menos espacio con los inputs
   border-bottom: 2px solid black;
+  padding-bottom: 0.5rem;
 }
 
 .form-fields {
   display: flex;
-  flex-direction: column;      
-  align-items: center;        
-  gap: 15px;                   
-  margin-top: 70px;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px; // menos espacio entre inputs
+  margin-top: 1rem;
 }
 
 input {
   width: 100%;
-  max-width: 450px;
   height: 40px;
   font-size: 16px;
   padding: 0 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  box-sizing: border-box;
+  max-width: 450px;
 }
-
 
 .login-actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 90%;
-  max-width: 400px;
-  margin: 50px auto 0;
-  padding: 0 1rem; 
+  margin-top: 32px;
+  width: 100%;
+  max-width: 450px;
+  margin-left: auto;
+  margin-right: auto;
 }
-
 
 .register-link {
   color: #003DF6;
@@ -93,7 +94,6 @@ input {
   cursor: pointer;
 }
 
-
 button {
   padding: 0.6rem 1.2rem;
   background-color: #003DF6;
@@ -103,6 +103,17 @@ button {
   cursor: pointer;
 }
 
+.error {
+  color: red;
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+.input-error {
+  color: red;
+  font-size: 14px;
+  margin-top: 4px;
+}
 
 @keyframes spin {
   to {

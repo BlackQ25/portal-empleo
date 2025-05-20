@@ -10,20 +10,46 @@
           placeholder="Correo electrónico"
           required
         />
+        <div
+          *ngIf="
+            loginForm.get('email')?.touched && loginForm.get('email')?.invalid
+          "
+          class="input-error"
+        >
+          <span *ngIf="loginForm.get('email')?.errors?.['required']"
+            >El correo es obligatorio.</span
+          >
+          <span *ngIf="loginForm.get('email')?.errors?.['email']"
+            >El formato del correo no es válido.</span
+          >
+        </div>
+
         <input
           type="password"
           formControlName="password"
           placeholder="Contraseña"
           required
         />
+        <div
+          *ngIf="
+            loginForm.get('password')?.touched &&
+            loginForm.get('password')?.invalid
+          "
+          class="input-error"
+        >
+          <span *ngIf="loginForm.get('password')?.errors?.['required']"
+            >La contraseña es obligatoria.</span
+          >
+        </div>
       </div>
 
       <div class="login-actions">
         <a (click)="goToRegister()" class="register-link">Crear cuenta</a>
-        <button type="submit" [disabled]="loginForm.invalid">Entrar</button>
+        <button type="submit">Entrar</button>
       </div>
     </form>
 
+    <!-- Mensaje general de error -->
     <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
   </div>
 </div>
