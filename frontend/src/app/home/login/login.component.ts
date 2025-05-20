@@ -30,7 +30,6 @@ export class LoginComponent {
 
   onSubmit(): void {
     if (this.loginForm.invalid) {
-      // Marca los campos como tocados para que se muestren los errores
       this.loginForm.markAllAsTouched();
       return;
     }

@@ -1,0 +1,34 @@
+.table-wrapper {
+  margin: 2rem auto;
+  max-width: 1000px;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.job-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.job-table th,
+.job-table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.job-table th {
+  background-color: #003DF6;
+  color: white;
+}
+
+.job-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}

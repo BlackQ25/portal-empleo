@@ -1,16 +1,18 @@
 <!-- Header, adaptado al 100% de ancho y posicion fija -->
 <div class="header">
-  <div class="container">
-    
+  <div class="container header-content">
+    <div class="logo">Portal de Empleo</div>
+
+    <div class="user-actions" *ngIf="userEmail">
+      <span class="user-email">Bienvenido, {{ userEmail }}</span>
+      <a routerLink="/perfil">Perfil</a>
+      <a (click)="logout()">Cerrar sesión</a>
+    </div>
   </div>
 </div>
-  
-<div class="layout-content">
-    <router-outlet></router-outlet>
-</div>
-  
-<!-- Footer adaptado al 100% de ancho -->
-<div class="footer">
 
+<div class="layout-content">
+  <router-outlet></router-outlet>
 </div>
-  
+
+<div class="footer"></div>
