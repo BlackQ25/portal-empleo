@@ -15,6 +15,7 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem(this.storageKey);
+    localStorage.removeItem('user');
   }
 
     getUserEmail(): string | null {

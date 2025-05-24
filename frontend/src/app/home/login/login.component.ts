@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ApiService } from '../../service/api.service';
+import { BaseService } from '../../service/base.service';
 import { AuthService } from '../../service/auth.service';
 import { ChangeDetectorRef } from '@angular/core';
 
@@ -17,7 +17,7 @@ export class LoginComponent {
 
   constructor(
     private fb: FormBuilder,
-    private apiService: ApiService,
+    private baseService: BaseService,
     private authService: AuthService,
     private router: Router,
     private cdr: ChangeDetectorRef
@@ -37,13 +37,21 @@ export class LoginComponent {
     const { email, password } = this.loginForm.value;
     this.isLoading = true;
 
-    this.apiService.login(email, password).subscribe({
+    this.baseService.login(email, password).subscribe({
       next: (res: any) => {
         if (res.success === false) {
           this.errorMessage = res.message || 'Credenciales incorrectas';
         } else {
           this.authService.setLogin(email);
-          this.router.navigate(['/board']);
+          localStorage.setItem(
+            'user',
+            JSON.stringify({
+              id: res.id || res.userId, 
+              email: res.email,
+              role: res.role,
+            })
+          );
+          this.router.navigate(['/catalog']);
         }
         this.isLoading = false;
       },

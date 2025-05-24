@@ -1,7 +1,7 @@
 <!-- Header, adaptado al 100% de ancho y posicion fija -->
 <div class="header">
   <div class="container header-content">
-    <div class="logo">Portal de Empleo</div>
+    <div class="logo" (click)="goHome()">Portal de Empleo</div>
 
     <div class="user-actions" *ngIf="userEmail">
       <span class="user-email">Bienvenido, {{ userEmail }}</span>

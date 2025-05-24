@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/job-offers")
+@RequestMapping("/api/job-offer")
 public class JobOfferController {
 
     private final JobOfferService jobOfferService;

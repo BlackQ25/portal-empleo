@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/states")
+@RequestMapping("/api/state")
 public class StateController {
 
     private final StateRepository stateRepository;

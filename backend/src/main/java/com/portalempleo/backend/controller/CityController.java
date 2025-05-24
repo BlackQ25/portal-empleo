@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/cities")
+@RequestMapping("/api/city")
 public class CityController {
 
     private final CityRepository cityRepository;

@@ -86,32 +86,29 @@ public class UserService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // ✅ Por ahora solo compara texto plano
-        if (!user.getPassword().equals(password)) {
+        // ✅ Compara el password plano con el cifrado usando BCrypt
+        if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new RuntimeException("Invalid password");
         }
 
         return new LoginResponse(user.getId(), user.getEmail(), user.getRole());
     }
 
+
     @Transactional
     public Candidate registerCandidate(CandidateRegistrationDTO dto) {
-        // Comprobar si ya existe el email de la cuenta que se quiere crear
         if (userRepository.existsByEmail(dto.getEmail())) {
             throw new RuntimeException("Email already in use");
         }
 
-        // Crear User
         User user = new User();
         user.setEmail(dto.getEmail());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setRole("candidate");
         User savedUser = userRepository.save(user);
 
-        // Crear Candidate
         Candidate candidate = new Candidate();
-        candidate.setUser(savedUser);
-        candidate.setUserId(savedUser.getId());
+        candidate.setUser(savedUser); // Mantener esto
         candidate.setName(dto.getName());
         candidate.setPhone(dto.getPhone());
         candidate.setAddress(dto.getAddress());
@@ -123,24 +120,23 @@ public class UserService {
         return candidateRepository.save(candidate);
     }
 
+
     @Transactional
     public Company registerCompany(CompanyRegistrationDTO dto) {
-        // Comprobar si ya existe el email de la cuenta que se quiere crear
         if (userRepository.existsByEmail(dto.getEmail())) {
             throw new RuntimeException("Email already in use");
         }
 
-        // Crear User
+        // Crear y guardar el usuario
         User user = new User();
         user.setEmail(dto.getEmail());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setRole("company");
         User savedUser = userRepository.save(user);
 
-        // Crear Company
+        // Crear y guardar la empresa
         Company company = new Company();
-        company.setUser(savedUser);
-        company.setUserId(savedUser.getId());
+        company.setUser(savedUser); // esto es suficiente para el vínculo
         company.setCompanyName(dto.getCompanyName());
         company.setCompanyDescription(dto.getCompanyDescription());
         company.setWebsite(dto.getWebsite());
@@ -149,7 +145,5 @@ public class UserService {
 
         return companyRepository.save(company);
     }
-
-
 
 }

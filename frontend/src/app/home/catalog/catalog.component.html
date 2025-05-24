@@ -1,0 +1,174 @@
+<div class="container-fluid mt-4">
+  <h2 class="text-center mb-4">Ofertas de Empleo</h2>
+
+  <!-- FILTROS -->
+  <div class="row g-3 mb-4">
+    <!-- Buscar por texto (ocupa toda la fila) -->
+    <div class="col-md-12">
+      <div class="input-group">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Buscar por texto..."
+          [(ngModel)]="searchText"
+          (input)="filterOffers()"
+        />
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          (click)="clearSearchText()"
+        >
+          X
+        </button>
+      </div>
+    </div>
+
+    <!-- Filtro por categoría -->
+    <div class="col-md-4">
+      <div class="input-group">
+        <select
+          class="form-select"
+          [(ngModel)]="selectedCategory"
+          (change)="filterOffers()"
+        >
+          <option value="">Todas las categorías</option>
+          <option *ngFor="let cat of categories" [value]="cat.name">
+            {{ cat.name }}
+          </option>
+        </select>
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          (click)="clearCategory()"
+        >
+          X
+        </button>
+      </div>
+    </div>
+
+    <!-- Filtro por ubicación -->
+    <div class="col-md-4">
+      <div class="input-group">
+        <select
+          class="form-select"
+          [(ngModel)]="selectedState"
+          (change)="filterOffers()"
+        >
+          <option value="">Todas las ubicaciones</option>
+          <option *ngFor="let state of states" [value]="state.name">
+            {{ state.name }}
+          </option>
+        </select>
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          (click)="clearState()"
+        >
+          X
+        </button>
+      </div>
+    </div>
+
+    <!-- Filtro por fecha -->
+    <div class="col-md-4">
+      <div class="input-group">
+        <input
+          type="date"
+          class="form-control"
+          [(ngModel)]="selectedDate"
+          (change)="filterOffers()"
+        />
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          (click)="clearDate()"
+        >
+          X
+        </button>
+      </div>
+    </div>
+
+    <div class="table-responsive fixed-table-container">
+      <table class="table table-borderless text-center align-middle mb-0">
+        <thead class="table-primary">
+          <tr>
+            <th>Oferta</th>
+            <th>Empresa</th>
+            <th>Categoría</th>
+            <th>Ubicación</th>
+            <th>Fecha de publicación</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let offer of paginatedOffers">
+            <td class="align-middle">{{ offer.title }}</td>
+            <td class="align-middle">{{ offer.company }}</td>
+            <td class="align-middle">{{ offer.category }}</td>
+            <td class="align-middle">{{ offer.state }}</td>
+            <td class="align-middle">
+              {{ offer.publishedAt | date : "dd/MM/yyyy" }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div
+        class="d-flex flex-wrap justify-content-between align-items-center mt-4"
+      >
+        <!-- Bloque simétrico vacío a la izquierda -->
+        <div class="d-flex align-items-center mt-3 mt-md-0 invisible">
+          <label class="me-2 mb-0">Resultados por página:</label>
+          <select class="form-select form-select-sm w-auto">
+            <option>10</option>
+          </select>
+        </div>
+
+        <!-- Paginación centrada -->
+        <div class="flex-grow-1 d-flex justify-content-center">
+          <nav *ngIf="filteredOffers.length > offersPerPage">
+            <ul class="pagination mb-0">
+              <li
+                class="page-item"
+                [class.disabled]="currentPage === 1"
+                (click)="changePage(currentPage - 1)"
+              >
+                <button class="page-link">Anterior</button>
+              </li>
+
+              <li
+                *ngFor="let page of totalPages"
+                class="page-item"
+                [class.active]="currentPage === page"
+                (click)="changePage(page)"
+              >
+                <button class="page-link">{{ page }}</button>
+              </li>
+
+              <li
+                class="page-item"
+                [class.disabled]="currentPage === totalPages.length"
+                (click)="changePage(currentPage + 1)"
+              >
+                <button class="page-link">Siguiente</button>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
+        <!-- Selector de resultados por página alineado a la derecha -->
+        <div class="d-flex align-items-center mt-3 mt-md-0">
+          <label class="me-2 mb-0">Resultados por página:</label>
+          <select
+            class="form-select form-select-sm w-auto"
+            [(ngModel)]="offersPerPage"
+            (change)="resetPagination()"
+          >
+            <option [value]="10">10</option>
+            <option [value]="20">20</option>
+            <option [value]="50">50</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
