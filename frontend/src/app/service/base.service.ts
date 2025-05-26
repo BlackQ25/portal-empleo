@@ -32,10 +32,18 @@ export class BaseService {
     return this.http.get<any[]>(`${this.baseUrl}/state`);
   }
 
+  getContracts() {
+    return this.http.get<any[]>(`${this.baseUrl}/contract`);
+  }
+
   getUserProfile() {
     return this.http.get<any>(`${this.baseUrl}/users/me`, {
       withCredentials: true,
     });
+  }
+
+  getUserById(id: number) {
+    return this.http.get<any>(`${this.baseUrl}/user/${id}`);
   }
 
   getCandidateById(id: number) {
@@ -65,5 +73,9 @@ export class BaseService {
     return this.http.post(`${this.baseUrl}/user/register-company`, data, {
       withCredentials: true,
     });
+  }
+
+  getJobOfferById(id: number) {
+    return this.http.get<any>(`${this.baseUrl}/job-offer/${id}`);
   }
 }

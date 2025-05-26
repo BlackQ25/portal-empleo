@@ -46,26 +46,6 @@ public class JobOfferController {
         return jobOfferService.getJobOffersByCategory(categoryId);
     }
 
-    @GetMapping("/by-city-and-state")
-    public List<JobOffer> getByCityAndState(@RequestParam Long cityId, @RequestParam Long stateId) {
-        return jobOfferService.getByCityAndState(cityId, stateId);
-    }
-
-    @GetMapping("/by-city-and-category")
-    public List<JobOffer> getByCityAndCategory(@RequestParam Long cityId, @RequestParam Long categoryId) {
-        return jobOfferService.getByCityAndCategory(cityId, categoryId);
-    }
-
-    @GetMapping("/by-state-and-category")
-    public List<JobOffer> getByStateAndCategory(@RequestParam Long stateId, @RequestParam Long categoryId) {
-        return jobOfferService.getByStateAndCategory(stateId, categoryId);
-    }
-
-    @GetMapping("/by-city-state-category")
-    public List<JobOffer> getByCityStateCategory(@RequestParam Long cityId, @RequestParam Long stateId, @RequestParam Long categoryId) {
-        return jobOfferService.getByCityStateCategory(cityId, stateId, categoryId);
-    }
-
     @PostMapping
     public JobOffer createJobOffer(@RequestBody JobOffer jobOffer, @RequestParam Long userId) {
         User user = userService.getUserById(userId);

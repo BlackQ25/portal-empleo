@@ -1,0 +1,71 @@
+<div class="container my-5">
+  <!-- Primer bloque -->
+  <div class="shadow p-4 rounded bg-white mb-4 justify-content-center">
+    <h4 class="text-dark border-bottom border-primary pb-2">
+      {{ offerDetails.title }}
+    </h4>
+
+    <div class="row gx-5 align-items-start mt-3">
+      <div class="col-md-6">
+        <h6 class="mb-1"><strong>Descripción:</strong></h6>
+        <p>{{ offerDetails.description }}</p>
+      </div>
+
+      <div class="col-md-6 padding-left">
+        <h6 class="mb-1"><strong>Categoría:</strong></h6>
+        <p>{{ offerDetails.category?.name }}</p>
+
+        <h6 class="mb-1"><strong>Contratación:</strong></h6>
+        <p>{{ offerDetails.contract?.name }}</p>
+      </div>
+    </div>
+  </div>
+
+    <!-- Segundo bloque -->
+  <div class="shadow p-4 rounded bg-white">
+    <div class="row gx-5 align-items-start">
+      <div class="col-md-6">
+        <h6 class="mb-1"><strong>Fecha de publicación:</strong></h6>
+        <p>{{ offerDetails.publishedAt | date : "dd/MM/yyyy" }}</p>
+
+        <h6 class="mb-1"><strong>Salario:</strong></h6>
+        <p>{{ offerDetails.salary | currency : "EUR" : "symbol" }}</p>
+      </div>
+
+      <div class="col-md-6">
+        <h6 class="mb-1"><strong>Ciudad:</strong></h6>
+        <p>{{ offerDetails.city?.name }}</p>
+
+        <h6 class="mb-1"><strong>Región:</strong></h6>
+        <p>{{ offerDetails.state?.name }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tercer bloque -->
+  <div class="shadow p-4 rounded bg-white mt-4">
+
+      <h4 class="mb-4">Contacto</h4>
+
+      <div class="row">
+        <div class="col-md-4" style="cursor: pointer;" (click)="goToUserDetails()">
+          <h6><strong>Empresa:</strong></h6>
+          <u><p>{{ offerDetails.company?.companyName }}</p></u>
+        </div>
+
+        <div class="col-md-4">
+          <h6><strong>Teléfono:</strong></h6>
+          <p>{{ offerDetails.company?.phone }}</p>
+        </div>
+
+        <div class="col-md-4">
+          <h6><strong>Web:</strong></h6>
+          <p>
+            <a [href]="offerDetails.company?.website" target="_blank">
+              {{ offerDetails.company?.website }}
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+</div>

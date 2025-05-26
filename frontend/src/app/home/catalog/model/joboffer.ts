@@ -6,4 +6,5 @@ export interface JobOffer {
     category?: { name: string };
     state?: { name: string };
     publishedAt?: string;
+    contract?: { name: string };
 }

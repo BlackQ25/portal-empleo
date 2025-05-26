@@ -1,18 +1,49 @@
-<!-- Header, adaptado al 100% de ancho y posicion fija -->
+<!-- HEADER anclado en la posicion superior-->
 <div class="header">
+  <button
+    class="btn btn-outline-light d-flex align-items-center me-3"
+    (click)="toggleSidebar()"
+    style="border: none; background: transparent; font-size: 1.5rem"
+  >
+    &#9776;
+  </button>
   <div class="container header-content">
     <div class="logo" (click)="goHome()">Portal de Empleo</div>
 
     <div class="user-actions" *ngIf="userEmail">
       <span class="user-email">Bienvenido, {{ userEmail }}</span>
-      <a routerLink="/profile">Perfil</a>
       <a (click)="logout()">Cerrar sesión</a>
     </div>
   </div>
 </div>
 
-<div class="layout-content">
-  <router-outlet></router-outlet>
+<!-- SIDEBAR  -->
+<div
+  class="sidebar text-white"
+  [class.sidebar-open]="isSidebarOpen"
+  [class.sidebar-closed]="!isSidebarOpen"
+>
+  <div class="p-3">
+    <h5 >Tablones</h5>
+    <ul class="list-unstyled">
+      <li class="mb-2" (click)="goHome()">- Tablón de Ofertas</li>
+    </ul>
+    <br>
+    <h5>Espacio Personal</h5>
+    <ul class="list-unstyled">
+      <li class="mb-2" (click)="goToProfile()">- Perfil</li>
+    </ul>
+  </div>
 </div>
 
-<div class="footer"></div>
+<!-- CONTENIDO -->
+<div
+  [ngClass]="{
+    'content-with-sidebar': isSidebarOpen,
+    'content-full': !isSidebarOpen
+  }"
+>
+  <div class="p-4 ">
+    <router-outlet></router-outlet>
+  </div>
+</div>

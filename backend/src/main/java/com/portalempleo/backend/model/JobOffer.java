@@ -22,7 +22,7 @@ public class JobOffer {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    private Long salary;
+    private String salary;
 
     @Column(name = "published_at")
     private Timestamp publishedAt;
@@ -42,4 +42,9 @@ public class JobOffer {
     @ManyToOne
     @JoinColumn(name = "state_id", nullable = false)
     private State state;
+
+    @ManyToOne
+    @JoinColumn(name = "contract_id")
+    private Contract contract;
+
 }

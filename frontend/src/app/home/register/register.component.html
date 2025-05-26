@@ -3,11 +3,13 @@
   class="toast align-items-center text-white bg-success border-0 position-fixed top-0 end-0 m-4"
   *ngIf="showSuccessToast"
   role="alert"
-  style="z-index: 1055; display: block; opacity: 1;" 
+  style="z-index: 1055; display: block; opacity: 1"
 >
   <div class="d-flex justify-content-between align-items-center">
     <div class="toast-body">Registro completado correctamente.</div>
-    <button class="btn btn-light btn-sm ms-3 me-2" (click)="goToLogin()">Iniciar sesión</button>
+    <a class="ms-3 me-2" (click)="goToLogin()">
+      Iniciar sesión
+    </a>
   </div>
 </div>
 
@@ -16,37 +18,37 @@
   class="toast align-items-center text-white bg-danger border-0 position-fixed top-0 end-0 m-4"
   *ngIf="showErrorToast"
   role="alert"
-  style="z-index: 1055; display: block; opacity: 1;"  
+  style="z-index: 1055; display: block; opacity: 1"
 >
   <div class="d-flex justify-content-between align-items-center">
     <div class="toast-body">Ha ocurrido un error al registrar.</div>
-    <button class="btn btn-light btn-sm ms-3 me-2" (click)="register()">Reintentar</button>
   </div>
 </div>
-
-
 
 <div class="container mt-5">
   <h2 class="text-center mb-4">Registro de Usuario</h2>
 
-  <!-- Selector de tipo de usuario -->
-  <div class="text-center mb-4">
-    <div class="btn-group">
-      <button
-        class="btn btn-outline-primary"
-        [class.active]="role === 'candidate'"
-        (click)="setRole('candidate')"
-      >
-        Personal
-      </button>
-      <button
-        class="btn btn-outline-primary"
-        [class.active]="role === 'company'"
-        (click)="setRole('company')"
-      >
-        Empresa
-      </button>
-    </div>
+  <div class="text-end mb-3">
+    <button class="btn btn-outline-secondary" (click)="goToLogin()">
+      Volver
+    </button>
+  </div>
+
+  <div class="tab-selector">
+    <button
+      class="tab-button"
+      [class.active]="role === 'candidate'"
+      (click)="setRole('candidate')"
+    >
+      Personal
+    </button>
+    <button
+      class="tab-button"
+      [class.active]="role === 'company'"
+      (click)="setRole('company')"
+    >
+      Empresa
+    </button>
   </div>
 
   <!-- Formulario común -->

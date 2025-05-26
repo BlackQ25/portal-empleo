@@ -24,6 +24,12 @@ public class UserController {
         return ResponseEntity.ok(profileDTO);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+        User user = userService.getUserById(id);
+        return ResponseEntity.ok(user);
+    }
+
     @PostMapping("/register-candidate")
     public ResponseEntity<Candidate> registerCandidate(@RequestBody CandidateRegistrationDTO dto) {
         Candidate candidate = userService.registerCandidate(dto);

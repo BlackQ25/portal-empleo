@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BaseService } from '../../service/base.service';
 import { forkJoin } from 'rxjs';
 import { JobOffer } from './model/joboffer';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-catalog',
@@ -13,17 +14,22 @@ export class CatalogComponent implements OnInit {
   selectedCategory: string = '';
   selectedState: string = '';
   selectedDate: string = '';
+  selectedContract: string = '';
 
   jobOffers: any[] = [];
   filteredOffers: any[] = [];
 
   categories: any[] = [];
   states: any[] = [];
+  contracts: any[] = [];
 
   offersPerPage: number = 10; // valor por defecto
   currentPage: number = 1;
 
-  constructor(private baseService: BaseService) {}
+  constructor(
+    private baseService: BaseService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadData();
@@ -35,16 +41,22 @@ export class CatalogComponent implements OnInit {
       categories: this.baseService.getCategories(),
       states: this.baseService.getStates(),
       offers: this.baseService.getJobOffers(),
-    }).subscribe(({ companies, categories, states, offers }) => {
+      contracts: this.baseService.getContracts(),
+    }).subscribe(({ categories, states, offers, contracts }) => {
       this.categories = categories;
       this.states = states;
+      this.contracts = contracts;
+
+      console.log('ofertas: ', offers)
 
       this.jobOffers = offers.map((offer: JobOffer) => ({
         title: offer.title,
-        company: offer.company?.companyName || 'Desconocido',
-        category: offer.category?.name || 'Desconocida',
-        state: offer.state?.name || 'Sin estado',
+        company: offer.company?.companyName || '',
+        category: offer.category?.name || '',
+        state: offer.state?.name || '-',
         publishedAt: offer.publishedAt || '',
+        contract: offer.contract?.name || '',
+        id: offer.id || 0
       }));
 
       this.filteredOffers = [...this.jobOffers];
@@ -58,6 +70,8 @@ export class CatalogComponent implements OnInit {
         offer.title.toLowerCase().includes(term) ||
         offer.company.toLowerCase().includes(term) ||
         offer.category.toLowerCase().includes(term);
+        offer.state.toLowerCase().includes(term) ||
+        offer.contract.toLowerCase().includes(term);
 
       const matchesCategory =
         !this.selectedCategory || offer.category === this.selectedCategory;
@@ -69,7 +83,10 @@ export class CatalogComponent implements OnInit {
         !this.selectedDate ||
         offer.publishedAt?.substring(0, 10) === this.selectedDate;
 
-      return matchesText && matchesCategory && matchesState && matchesDate;
+      const matchesContract =
+        !this.selectedContract || offer.contract === this.selectedContract;
+
+      return matchesText && matchesCategory && matchesState && matchesDate && matchesContract;
     });
 
     this.resetPagination();
@@ -87,6 +104,11 @@ export class CatalogComponent implements OnInit {
 
   clearState(): void {
     this.selectedState = '';
+    this.filterOffers();
+  }
+
+  clearContract(): void {
+    this.selectedContract = '';
     this.filterOffers();
   }
 
@@ -117,4 +139,9 @@ export class CatalogComponent implements OnInit {
     this.currentPage = 1;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+
+  goToDetails(id: number): void {
+  this.router.navigate(['/catalog-item', id]);
+}
+
 }

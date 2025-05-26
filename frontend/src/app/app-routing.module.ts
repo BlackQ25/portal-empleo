@@ -6,6 +6,8 @@ import { AuthGuard } from './service/auth.guard';
 import { RegisterComponent } from './home/register/register.component';
 import { ProfileComponent } from './home/profile/profile.component';
 import { CatalogComponent } from './home/catalog/catalog.component';
+import { CatalogItemComponent } from './home/catalog-item/catalog-item.component';
+import { UserDetailsComponent } from './home/user-details/user-details.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -34,6 +36,16 @@ const routes: Routes = [
         component: ProfileComponent,
         canActivate: [AuthGuard],
       },
+      {
+        path: 'catalog-item/:id',
+        component: CatalogItemComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'user-details/:id',
+        component: UserDetailsComponent,
+        canActivate: [AuthGuard],
+      }
     ],
   },
 ];

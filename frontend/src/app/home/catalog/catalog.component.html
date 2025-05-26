@@ -3,7 +3,7 @@
 
   <!-- FILTROS -->
   <div class="row g-3 mb-4">
-    <!-- Buscar por texto (ocupa toda la fila) -->
+    <!-- Buscar por texto -->
     <div class="col-md-12">
       <div class="input-group">
         <input
@@ -23,8 +23,8 @@
       </div>
     </div>
 
-    <!-- Filtro por categoría -->
-    <div class="col-md-4">
+    <!-- Categoría -->
+    <div class="col-md-3">
       <div class="input-group">
         <select
           class="form-select"
@@ -46,8 +46,8 @@
       </div>
     </div>
 
-    <!-- Filtro por ubicación -->
-    <div class="col-md-4">
+    <!-- Ubicación -->
+    <div class="col-md-3">
       <div class="input-group">
         <select
           class="form-select"
@@ -69,8 +69,31 @@
       </div>
     </div>
 
-    <!-- Filtro por fecha -->
-    <div class="col-md-4">
+    <!-- Tipo de contrato -->
+    <div class="col-md-3">
+      <div class="input-group">
+        <select
+          class="form-select"
+          [(ngModel)]="selectedContract"
+          (change)="filterOffers()"
+        >
+          <option value="">Todos los tipos de contrato</option>
+          <option *ngFor="let contract of contracts" [value]="contract.name">
+            {{ contract.name }}
+          </option>
+        </select>
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          (click)="clearContract()"
+        >
+          X
+        </button>
+      </div>
+    </div>
+
+    <!-- Fecha -->
+    <div class="col-md-3">
       <div class="input-group">
         <input
           type="date"
@@ -87,87 +110,95 @@
         </button>
       </div>
     </div>
+  </div>
 
-    <div class="table-responsive fixed-table-container">
-      <table class="table table-borderless text-center align-middle mb-0">
-        <thead class="table-primary">
-          <tr>
-            <th>Oferta</th>
-            <th>Empresa</th>
-            <th>Categoría</th>
-            <th>Ubicación</th>
-            <th>Fecha de publicación</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let offer of paginatedOffers">
-            <td class="align-middle">{{ offer.title }}</td>
-            <td class="align-middle">{{ offer.company }}</td>
-            <td class="align-middle">{{ offer.category }}</td>
-            <td class="align-middle">{{ offer.state }}</td>
-            <td class="align-middle">
-              {{ offer.publishedAt | date : "dd/MM/yyyy" }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
+  <div class="table-responsive fixed-table-container">
+    <table class="table table-borderless text-center align-middle mb-0">
+      <thead class="table-primary">
+        <tr>
+          <th>Oferta</th>
+          <th>Empresa</th>
+          <th>Categoría</th>
+          <th>Región</th>
+          <th>Fecha de publicación</th>
+          <th>Tipo de contratación</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let offer of paginatedOffers"
+          (click)="goToDetails(offer.id)"
+          style="cursor: pointer"
+        >
+          <td class="align-middle">{{ offer.title }}</td>
+          <td class="align-middle">
+            <strong>{{ offer.company }}</strong>
+          </td>
+          <td class="align-middle">{{ offer.category }}</td>
+          <td class="align-middle">{{ offer.state }}</td>
+          <td class="align-middle">
+            {{ offer.publishedAt | date : "dd/MM/yyyy" }}
+          </td>
+          <td class="align-middle">{{ offer.contract }}</td>
+          <td class="d-none">{{offer.id}}</td>
+        </tr>
+      </tbody>
+    </table>
 
-      <div
-        class="d-flex flex-wrap justify-content-between align-items-center mt-4"
-      >
-        <!-- Bloque simétrico vacío a la izquierda -->
-        <div class="d-flex align-items-center mt-3 mt-md-0 invisible">
-          <label class="me-2 mb-0">Resultados por página:</label>
-          <select class="form-select form-select-sm w-auto">
-            <option>10</option>
-          </select>
-        </div>
+    <div
+      class="d-flex flex-wrap justify-content-between align-items-center mt-4"
+    >
+      <!-- Bloque simétrico vacío a la izquierda -->
+      <div class="d-flex align-items-center mt-3 mt-md-0 invisible">
+        <label class="me-2 mb-0">Resultados por página:</label>
+        <select class="form-select form-select-sm w-auto">
+          <option>10</option>
+        </select>
+      </div>
 
-        <!-- Paginación centrada -->
-        <div class="flex-grow-1 d-flex justify-content-center">
-          <nav *ngIf="filteredOffers.length > offersPerPage">
-            <ul class="pagination mb-0">
-              <li
-                class="page-item"
-                [class.disabled]="currentPage === 1"
-                (click)="changePage(currentPage - 1)"
-              >
-                <button class="page-link">Anterior</button>
-              </li>
+      <!-- Paginación centrada -->
+      <div class="flex-grow-1 d-flex justify-content-center">
+        <nav *ngIf="filteredOffers.length > offersPerPage">
+          <ul class="pagination mb-0">
+            <li
+              class="page-item"
+              [class.disabled]="currentPage === 1"
+              (click)="changePage(currentPage - 1)"
+            >
+              <button class="page-link">Anterior</button>
+            </li>
 
-              <li
-                *ngFor="let page of totalPages"
-                class="page-item"
-                [class.active]="currentPage === page"
-                (click)="changePage(page)"
-              >
-                <button class="page-link">{{ page }}</button>
-              </li>
+            <li
+              *ngFor="let page of totalPages"
+              class="page-item"
+              [class.active]="currentPage === page"
+              (click)="changePage(page)"
+            >
+              <button class="page-link">{{ page }}</button>
+            </li>
 
-              <li
-                class="page-item"
-                [class.disabled]="currentPage === totalPages.length"
-                (click)="changePage(currentPage + 1)"
-              >
-                <button class="page-link">Siguiente</button>
-              </li>
-            </ul>
-          </nav>
-        </div>
+            <li
+              class="page-item"
+              [class.disabled]="currentPage === totalPages.length"
+              (click)="changePage(currentPage + 1)"
+            >
+              <button class="page-link">Siguiente</button>
+            </li>
+          </ul>
+        </nav>
+      </div>
 
-        <!-- Selector de resultados por página alineado a la derecha -->
-        <div class="d-flex align-items-center mt-3 mt-md-0">
-          <label class="me-2 mb-0">Resultados por página:</label>
-          <select
-            class="form-select form-select-sm w-auto"
-            [(ngModel)]="offersPerPage"
-            (change)="resetPagination()"
-          >
-            <option [value]="10">10</option>
-            <option [value]="20">20</option>
-            <option [value]="50">50</option>
-          </select>
-        </div>
+      <div class="d-flex align-items-center mt-3 mt-md-0">
+        <label class="me-2 mb-0">Resultados por página:</label>
+        <select
+          class="form-select form-select-sm w-auto"
+          [(ngModel)]="offersPerPage"
+          (change)="resetPagination()"
+        >
+          <option [value]="10">10</option>
+          <option [value]="20">20</option>
+          <option [value]="50">50</option>
+        </select>
       </div>
     </div>
   </div>

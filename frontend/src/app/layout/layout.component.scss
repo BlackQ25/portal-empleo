@@ -1,20 +1,78 @@
+/* HEADER */
 .header {
     height: 80px;
-    width: 100%;
-    top: 0;
-    z-index: 9;
     position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
     background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
     color: white;
     display: flex;
     align-items: center;
+    padding: 0 1rem;
 }
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  top: 80px;
+  bottom: 0;
+  left: 0;
+  width: 250px;
+  height: calc(100vh - 80px); /* Evita solaparse con el header */
+  background: linear-gradient(to right, #0f2027, #142830) !important;
+  transition: transform 0.3s ease;
+  z-index: 9;
+  overflow-y: auto;
+  padding-top: 1rem;
+}
+
+.sidebar-closed {
+    transform: translateX(-100%);
+    width: 0;
+}
+
+.sidebar-open {
+    transform: translateX(0);
+    width: 250px;
+}
+
+/* CONTENIDO PRINCIPAL */
+.content-with-sidebar {
+    margin-top: 60px;
+    margin-left: 250px;
+    transition: margin-left 0.3s ease;
+    padding: 2rem;
+}
+
+.content-full {
+    margin-top: 60px;
+    margin-left: 0;
+    transition: margin-left 0.3s ease;
+    padding: 2rem;
+}
+
+
+.header>button {
+    margin-left: 1rem;
+    border: none;
+    background: transparent;
+}
+
+.header-content {
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 
 .container {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 0 32px;
     display: flex;
     justify-content: space-between; // ✅ separa izquierda y derecha
     align-items: center;
@@ -52,10 +110,19 @@
 }
 
 .layout-content {
-    margin-top: 80px;
+    margin-top: 60px;
     padding: 2rem;
 }
 
-a{
+a {
     cursor: pointer;
+}
+
+li {
+    padding-left: 20px;
+    cursor: pointer;
+}
+
+li:hover {
+    border-bottom: 1px solid #ccc;
 }

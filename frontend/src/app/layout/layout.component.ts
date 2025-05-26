@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../service/auth.service';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-layout',
@@ -9,8 +9,15 @@ import { Router } from '@angular/router';
 })
 export class LayoutComponent implements OnInit {
   userEmail: string | null = null;
+  isSidebarOpen = true;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.isSidebarOpen = false;
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.userEmail = this.authService.getUserEmail();
@@ -21,7 +28,16 @@ export class LayoutComponent implements OnInit {
     this.router.navigate(['/login']);
     localStorage.removeItem('user');
   }
+
   goHome(): void {
     this.router.navigate(['/catalog']);
+  }
+
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
+  goToProfile() {
+    this.router.navigate(['/profile']);
   }
 }

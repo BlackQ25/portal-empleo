@@ -46,7 +46,7 @@ export class LoginComponent {
           localStorage.setItem(
             'user',
             JSON.stringify({
-              id: res.id || res.userId, 
+              id: res.id || res.userId,
               email: res.email,
               role: res.role,
             })
@@ -56,11 +56,20 @@ export class LoginComponent {
         this.isLoading = false;
       },
       error: (err) => {
+        const backendMsg = err?.error;
+
         if (err.status === 401 || err.status === 403) {
-          this.errorMessage = 'Credenciales incorrectas';
+          if (typeof backendMsg === 'string') {
+            this.errorMessage = backendMsg;
+          } else if (backendMsg?.message) {
+            this.errorMessage = backendMsg.message;
+          } else {
+            this.errorMessage = 'Credenciales incorrectas';
+          }
         } else {
           this.errorMessage = 'Error del servidor. Intenta más tarde.';
         }
+
         this.isLoading = false;
       },
     });
