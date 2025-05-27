@@ -28,4 +28,13 @@ public class Application {
     @Column(name = "status")
     private String status;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "job_offer_id", insertable = false, updatable = false)
+    private JobOffer jobOffer;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "candidate_id", insertable = false, updatable = false)
+    private Candidate candidate;
+
+
 }

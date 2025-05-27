@@ -78,4 +78,12 @@ export class BaseService {
   getJobOfferById(id: number) {
     return this.http.get<any>(`${this.baseUrl}/job-offer/${id}`);
   }
+
+  applyToOffer(application: { candidateId: number; jobOfferId: number }) {
+    return this.http.post(`${this.baseUrl}/application`, application);
+  }
+
+  getApplicationsByUserId(id: number) {
+    return this.http.get(`${this.baseUrl}/application/user/${id}`);
+  }
 }

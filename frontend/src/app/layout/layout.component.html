@@ -33,6 +33,9 @@
     <ul class="list-unstyled">
       <li class="mb-2" (click)="goToProfile()">- Perfil</li>
     </ul>
+    <ul class="list-unstyled" *ngIf="role === 'candidate'">
+      <li class="mb-2" (click)="goToApplications()">- Inscripciones</li>
+    </ul>
   </div>
 </div>
 

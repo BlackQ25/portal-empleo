@@ -18,12 +18,11 @@ export class AuthService {
     localStorage.removeItem('user');
   }
 
-    getUserEmail(): string | null {
+  getUserEmail(): string | null {
     return localStorage.getItem(this.storageKey);
   }
 
   getUserRole(): string | null {
     return localStorage.getItem(this.roleKey);
   }
-  
 }

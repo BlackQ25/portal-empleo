@@ -1,0 +1,38 @@
+<div class="container my-5">
+  <h2 class="text-center mb-4">Mis Inscripciones</h2>
+
+  <div *ngIf="applications.length === 0 && !loading" class="alert alert-info">
+    No tienes ninguna inscripción registrada.
+  </div>
+
+  <div *ngIf="loading" class="text-center my-4">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+  </div>
+
+  <div *ngIf="applications.length > 0">
+    <div class="table-responsive">
+      <table class="table table-striped text-center align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th>Oferta</th>
+            <th>Empresa</th>
+            <th>Fecha de inscripción</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let app of applications">
+            <td>{{ app.jobOffer?.title || '-' }}</td>
+            <td><strong>{{ app.jobOffer?.company?.companyName || '-' }}</strong></td>
+            <td>{{ app.appliedAt | date : 'dd/MM/yyyy' }}</td>
+            <td>
+              <span class="badge bg-primary">{{ app.status || 'pending' }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

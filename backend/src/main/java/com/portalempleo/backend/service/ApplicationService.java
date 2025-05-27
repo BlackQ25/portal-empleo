@@ -10,13 +10,22 @@ import java.util.*;
 public class ApplicationService {
 
     private final ApplicationRepository repository;
+    private final CandidateRepository candidateRepository;
 
-    public ApplicationService(ApplicationRepository repository) {
+    public ApplicationService(ApplicationRepository repository, CandidateRepository candidateRepository) {
         this.repository = repository;
+        this.candidateRepository = candidateRepository;
     }
 
     public List<Application> getAllApplications() {
         return repository.findAll();
+    }
+
+    public List<Application> findByCandidateId(Long userId) {
+        Candidate candidate = candidateRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Candidato no encontrado"));
+
+        return repository.findByCandidateId(candidate.getUserId());
     }
 
     public Optional<Application> getApplicationById(Integer id) {

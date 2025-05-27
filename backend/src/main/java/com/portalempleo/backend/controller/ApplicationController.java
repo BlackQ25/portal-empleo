@@ -21,6 +21,12 @@ public class ApplicationController {
         return service.getAllApplications();
     }
 
+    @GetMapping("/user/{id}")
+    public List<Application> getApplicationsByUserId(@PathVariable Long id) {
+        return service.findByCandidateId(id);
+    }
+
+
     @GetMapping("/{id}")
     public ResponseEntity<Application> getApplicationById(@PathVariable Integer id) {
         return service.getApplicationById(id)

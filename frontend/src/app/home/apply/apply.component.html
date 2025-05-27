@@ -1,0 +1,75 @@
+<!-- TOAST ÉXITO -->
+<div
+  class="toast align-items-center text-white bg-success border-0 position-fixed top-0 end-0 m-4"
+  *ngIf="showSuccessToast"
+  role="alert"
+  style="z-index: 1055; display: block; opacity: 1"
+>
+  <div class="d-flex justify-content-between align-items-center">
+    <div class="toast-body">Inscripción completada correctamente.</div>
+  </div>
+</div>
+
+<!-- TOAST ERROR -->
+<div
+  class="toast align-items-center text-white bg-danger border-0 position-fixed top-0 end-0 m-4"
+  *ngIf="showErrorToast"
+  role="alert"
+  style="z-index: 1055; display: block; opacity: 1"
+>
+  <div class="d-flex justify-content-between align-items-center">
+    <div class="toast-body">Ha ocurrido un error en la inscripción, inténtelo mas tarde</div>
+  </div>
+</div>
+
+
+<div class="container my-5">
+  <h2 class="text-center mb-4">Solicitud de inscripción</h2>
+
+  <!-- Bloque de información de la oferta -->
+  <div class="shadow p-4 rounded bg-white mb-4">
+    <h4 class="text-dark border-bottom border-primary pb-2">
+      Oferta de trabajo
+    </h4>
+
+    <div class="row gx-5 mt-3">
+      <div class="col-md-6">
+        <p><strong>Puesto:</strong> {{ offer.title }}</p>
+        <p><strong>Descripción:</strong></p>
+        <p>{{ offer.description }}</p>
+      </div>
+
+      <div class="col-md-4">
+        <p><strong>Contratación:</strong> {{ offer.contract?.name }}</p>
+        <p><strong>Salario:</strong> {{ offer.salary | currency : "EUR" }}</p>
+        <p><strong>Ubicación:</strong> {{ offer.city?.name }}, {{ offer.state?.name }}</p>
+        <p><strong>Empresa: </strong> <strong>{{ offer.company?.companyName }}</strong></p>
+        <p><strong>Fecha de publicación:</strong> {{ offer.publishedAt | date : "dd/MM/yyyy" }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bloque de información del candidato -->
+  <div class="shadow p-4 rounded bg-white mb-4">
+    <h4 class="mb-4 text-dark border-bottom border-primary pb-2">Datos del candidato</h4>
+
+    <div *ngIf="candidate">
+      <div class="row">
+        <div class="col-md-6">
+          <p><strong>Nombre:</strong> {{ candidate.name }}</p>
+          <p><strong>Email:</strong> {{ candidate.user.email }}</p>
+          <p><strong>Teléfono de contacto:</strong> {{ candidate.phone }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!candidate" class="text-muted">
+      Cargando información del candidato...
+    </div>
+  </div>
+
+  <!-- Botón de confirmación -->
+  <div class="d-flex justify-content-end">
+    <button class="btn btn-success" (click)="confirmApplication()">Confirmar inscripción</button>
+  </div>
+</div>

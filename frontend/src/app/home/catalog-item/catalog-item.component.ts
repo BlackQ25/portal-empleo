@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BaseService } from '../../service/base.service';
 
 @Component({
@@ -40,9 +40,13 @@ export class CatalogItemComponent implements OnInit {
   }
 
   goToUserDetails(): void {
-  const companyId = this.offerDetails?.company?.user?.id;
-  if (companyId) {
-    this.router.navigate(['/user-details', companyId]);
+    const companyId = this.offerDetails?.company?.user?.id;
+    if (companyId) {
+      this.router.navigate(['/user-details', companyId]);
+    }
   }
-}
+
+  goToApply(): void {
+    this.router.navigate(['/apply', this.offerId]);
+  }
 }

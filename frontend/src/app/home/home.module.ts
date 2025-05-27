@@ -7,10 +7,30 @@ import { ProfileComponent } from './profile/profile.component';
 import { CatalogComponent } from './catalog/catalog.component';
 import { CatalogItemComponent } from './catalog-item/catalog-item.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
+import { ApplyComponent } from './apply/apply.component';
+import { ApplicationsComponent } from './applications/applications.component';
 
 @NgModule({
-  declarations: [LoginComponent, CatalogComponent, RegisterComponent, ProfileComponent, CatalogItemComponent, UserDetailsComponent],
+  declarations: [
+    LoginComponent,
+    CatalogComponent,
+    RegisterComponent,
+    ProfileComponent,
+    CatalogItemComponent,
+    UserDetailsComponent,
+    ApplyComponent,
+    ApplicationsComponent
+  ],
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
-  exports: [LoginComponent, CatalogComponent, RegisterComponent, ProfileComponent, CatalogItemComponent, UserDetailsComponent],
+  exports: [
+    LoginComponent,
+    CatalogComponent,
+    RegisterComponent,
+    ProfileComponent,
+    CatalogItemComponent,
+    UserDetailsComponent,
+    ApplyComponent,
+    ApplicationsComponent
+  ],
 })
 export class HomeModule {}

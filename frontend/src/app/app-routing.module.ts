@@ -8,6 +8,8 @@ import { ProfileComponent } from './home/profile/profile.component';
 import { CatalogComponent } from './home/catalog/catalog.component';
 import { CatalogItemComponent } from './home/catalog-item/catalog-item.component';
 import { UserDetailsComponent } from './home/user-details/user-details.component';
+import { ApplyComponent } from './home/apply/apply.component';
+import { ApplicationsComponent } from './home/applications/applications.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -44,6 +46,16 @@ const routes: Routes = [
       {
         path: 'user-details/:id',
         component: UserDetailsComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'apply/:id',
+        component: ApplyComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'applications',
+        component: ApplicationsComponent,
         canActivate: [AuthGuard],
       }
     ],

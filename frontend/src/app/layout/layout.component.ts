@@ -10,6 +10,7 @@ import { Router, NavigationEnd } from '@angular/router';
 export class LayoutComponent implements OnInit {
   userEmail: string | null = null;
   isSidebarOpen = true;
+  role: string | null = null;
 
   constructor(private authService: AuthService, private router: Router) {
     this.router.events.subscribe((event) => {
@@ -21,12 +22,13 @@ export class LayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.userEmail = this.authService.getUserEmail();
+    this.role = this.authService.getUserRole();
+    console.log('Rol del usuario:', this.role);
   }
 
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
-    localStorage.removeItem('user');
   }
 
   goHome(): void {
@@ -39,5 +41,9 @@ export class LayoutComponent implements OnInit {
 
   goToProfile() {
     this.router.navigate(['/profile']);
+  }
+
+  goToApplications() {
+    this.router.navigate(['/applications']);
   }
 }
