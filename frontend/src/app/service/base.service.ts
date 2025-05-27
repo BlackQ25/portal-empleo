@@ -6,7 +6,7 @@ import { environment } from '../enviroment/enviroment';
 export class BaseService {
   private readonly baseUrl = environment.url;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   login(email: string, password: string) {
     return this.http.post(
@@ -14,6 +14,10 @@ export class BaseService {
       { email, password },
       { withCredentials: true }
     );
+  }
+
+  getAllUsers(){
+    return this.http.get<any[]>(`${this.baseUrl}/user`);
   }
 
   getJobOffers() {
@@ -34,12 +38,6 @@ export class BaseService {
 
   getContracts() {
     return this.http.get<any[]>(`${this.baseUrl}/contract`);
-  }
-
-  getUserProfile() {
-    return this.http.get<any>(`${this.baseUrl}/users/me`, {
-      withCredentials: true,
-    });
   }
 
   getUserById(id: number) {
@@ -86,4 +84,23 @@ export class BaseService {
   getApplicationsByUserId(id: number) {
     return this.http.get(`${this.baseUrl}/application/user/${id}`);
   }
+
+  registerAdmin(data: any) {
+    return this.http.post(`${this.baseUrl}/user/register-admin`, data, {
+      withCredentials: true,
+    });
+  }
+
+  deleteAdmin(userId: number) {
+    return this.http.delete(`${this.baseUrl}/user/admin/${userId}`);
+  }
+
+  deleteCandidate(userId: number) {
+    return this.http.delete(`${this.baseUrl}/user/candidate/${userId}`);
+  }
+
+  deleteCompany(userId: number) {
+    return this.http.delete(`${this.baseUrl}/user/company/${userId}`);
+  }
+
 }

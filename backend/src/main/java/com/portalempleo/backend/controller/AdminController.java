@@ -26,4 +26,20 @@ public class AdminController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @PostMapping
+    public Admin createAdmin(@RequestBody Admin admin) {
+        return adminService.saveAdmin(admin);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAdmin(@PathVariable Long id) {
+        if (adminService.getAdminById(id).isPresent()) {
+            adminService.deleteAdmin(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }

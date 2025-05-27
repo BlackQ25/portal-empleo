@@ -9,6 +9,8 @@ import { CatalogItemComponent } from './catalog-item/catalog-item.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { ApplyComponent } from './apply/apply.component';
 import { ApplicationsComponent } from './applications/applications.component';
+import { AdminManagementComponent } from './admin-management/admin-management.component';
+import { UsersCatalogComponent } from './users-catalog/users-catalog.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { ApplicationsComponent } from './applications/applications.component';
     CatalogItemComponent,
     UserDetailsComponent,
     ApplyComponent,
-    ApplicationsComponent
+    ApplicationsComponent,
+    AdminManagementComponent,
+    UsersCatalogComponent
   ],
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   exports: [
@@ -30,7 +34,9 @@ import { ApplicationsComponent } from './applications/applications.component';
     CatalogItemComponent,
     UserDetailsComponent,
     ApplyComponent,
-    ApplicationsComponent
+    ApplicationsComponent,
+    AdminManagementComponent,
+    UsersCatalogComponent
   ],
 })
 export class HomeModule {}

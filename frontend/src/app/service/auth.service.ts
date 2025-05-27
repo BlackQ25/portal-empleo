@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly storageKey = 'userEmail';
-  private readonly roleKey = 'userRole';
 
   isLoggedIn(): boolean {
-    return !!localStorage.getItem(this.storageKey);
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    return user.email;
   }
 
   setLogin(email: string): void {
@@ -14,15 +14,16 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem(this.storageKey);
     localStorage.removeItem('user');
   }
 
   getUserEmail(): string | null {
-    return localStorage.getItem(this.storageKey);
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    return user.email || null;
   }
 
   getUserRole(): string | null {
-    return localStorage.getItem(this.roleKey);
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    return user.role || null;
   }
 }

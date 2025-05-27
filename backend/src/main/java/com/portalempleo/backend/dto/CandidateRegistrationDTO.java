@@ -7,7 +7,6 @@ public class CandidateRegistrationDTO {
     private String email;
     private String password;
 
-    // Candidate-specific fields:
     private String name;
     private String phone;
     private String address;

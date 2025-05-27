@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -18,6 +19,10 @@ public class UserService {
     private final CompanyRepository companyRepository;
     private final AdminRepository adminRepository;
     private final PasswordEncoder passwordEncoder;
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
 
     public UserService(UserRepository userRepository,
                        CandidateRepository candidateRepository,
@@ -144,5 +149,46 @@ public class UserService {
 
         return companyRepository.save(company);
     }
+
+    @Transactional
+    public Admin registerAdmin(AdminRegistrationDTO dto) {
+        if (userRepository.existsByEmail(dto.getEmail())) {
+            throw new RuntimeException("Email already in use");
+        }
+
+        User user = new User();
+        user.setEmail(dto.getEmail());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setRole("admin");
+
+        User savedUser = userRepository.save(user);
+
+        Admin admin = new Admin();
+        admin.setUser(savedUser);
+        admin.setName(dto.getName());
+
+        return adminRepository.save(admin);
+    }
+
+    @Transactional
+    public void deleteAdminByUserId(Long userId) {
+        adminRepository.deleteById(userId);
+        userRepository.deleteById(userId);
+    }
+
+    @Transactional
+    public void deleteCandidateByUserId(Long userId) {
+        candidateRepository.deleteById(userId);
+        userRepository.deleteById(userId);
+    }
+
+    @Transactional
+    public void deleteCompanyByUserId(Long userId) {
+        companyRepository.deleteById(userId);
+        userRepository.deleteById(userId);
+    }
+
+
+
 
 }

@@ -7,7 +7,6 @@ public class CompanyRegistrationDTO {
     private String email;
     private String password;
 
-    // Company-specific fields:
     private String companyName;
     private String companyDescription;
     private String website;

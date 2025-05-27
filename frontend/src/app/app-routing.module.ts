@@ -10,6 +10,8 @@ import { CatalogItemComponent } from './home/catalog-item/catalog-item.component
 import { UserDetailsComponent } from './home/user-details/user-details.component';
 import { ApplyComponent } from './home/apply/apply.component';
 import { ApplicationsComponent } from './home/applications/applications.component';
+import { AdminManagementComponent } from './home/admin-management/admin-management.component';
+import { UsersCatalogComponent } from './home/users-catalog/users-catalog.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -56,6 +58,16 @@ const routes: Routes = [
       {
         path: 'applications',
         component: ApplicationsComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'admin-management',
+        component: AdminManagementComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'users-catalog',
+        component: UsersCatalogComponent,
         canActivate: [AuthGuard],
       }
     ],

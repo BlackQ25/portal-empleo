@@ -32,9 +32,13 @@
     <h5>Espacio Personal</h5>
     <ul class="list-unstyled">
       <li class="mb-2" (click)="goToProfile()">- Perfil</li>
+      <li class="mb-2" (click)="goToApplications()" *ngIf="role === 'candidate'">- Inscripciones</li>
     </ul>
-    <ul class="list-unstyled" *ngIf="role === 'candidate'">
-      <li class="mb-2" (click)="goToApplications()">- Inscripciones</li>
+    <br>
+    <h5>Gestión de administración</h5>
+    <ul class="list-unstyled">
+      <li class="mb-2" (click)="goToManagement()">- Gestión admin</li>
+      <li class="mb-2" (click)="goToUsersCatalog()">- Gestión de usuarios</li>
     </ul>
   </div>
 </div>

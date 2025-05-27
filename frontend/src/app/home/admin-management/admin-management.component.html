@@ -1,0 +1,56 @@
+<!-- Toast Container global (fuera del contenido principal) -->
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+  <!-- Toast de éxito al crear admin -->
+  <div
+    class="toast show align-items-center text-white bg-success border-0 mb-3"
+    role="alert"
+    *ngIf="showSuccessToast"
+  >
+    <div class="d-flex justify-content-between">
+      <div class="toast-body">Administrador creado correctamente.</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" (click)="closeSuccessToast()"></button>
+    </div>
+  </div>
+
+  <!-- Toast de error al crear admin -->
+  <div
+    class="toast show align-items-center text-white bg-danger border-0 mb-3"
+    role="alert"
+    *ngIf="showErrorToast"
+  >
+    <div class="d-flex justify-content-between">
+      <div class="toast-body">Error al crear administrador.</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" (click)="closeErrorToast()"></button>
+    </div>
+  </div>
+</div>
+
+
+<div class="container my-5">
+    <h2 class="text-center mb-4">Gestión de Administradores</h2>
+
+    <!-- Bloque: Crear nuevo admin -->
+    <div class="card shadow p-4 mb-4">
+        <h5 class="mb-3">Crear usuario admin</h5>
+        <form (ngSubmit)="createAdmin()" #adminForm="ngForm">
+            <div class="mb-3">
+                <label>Email</label>
+                <input type="email" class="form-control" [(ngModel)]="adminData.email" name="email" required />
+            </div>
+
+            <div class="mb-3">
+                <label>Contraseña</label>
+                <input type="password" class="form-control" [(ngModel)]="adminData.password" name="password" required />
+            </div>
+
+            <div class="mb-3">
+                <label>Nombre del admin</label>
+                <input type="text" class="form-control" [(ngModel)]="adminData.name" name="name" required />
+            </div>
+
+            <button class="btn btn-primary mt-2" type="submit" [disabled]="!adminForm.form.valid">
+                Crear Admin
+            </button>
+        </form>
+    </div>
+</div>

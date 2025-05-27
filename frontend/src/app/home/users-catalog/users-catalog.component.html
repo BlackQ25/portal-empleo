@@ -1,0 +1,51 @@
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+<div
+    class="toast show align-items-center text-white bg-success border-0 mb-3"
+    role="alert"
+    *ngIf="showDeleteSuccess"
+  >
+    <div class="d-flex justify-content-between">
+      <div class="toast-body">Usuario eliminado correctamente.</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" (click)="closeDeleteSuccess()"></button>
+    </div>
+  </div>
+
+  <!-- Toast de error al eliminar -->
+  <div
+    class="toast show align-items-center text-white bg-danger border-0 mb-3"
+    role="alert"
+    *ngIf="showDeleteError"
+  >
+    <div class="d-flex justify-content-between">
+      <div class="toast-body">No se encontró el usuario o hubo un error.</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" (click)="closeDeleteError()"></button>
+    </div>
+  </div>
+</div>
+
+ <!-- Bloque: Eliminar usuario por email + rol -->
+    <div class="card shadow p-4">
+        <h5 class="mb-3">Eliminar usuario</h5>
+        <form (ngSubmit)="deleteUser()" #deleteForm="ngForm">
+            <div class="mb-3">
+                <label>Email del usuario</label>
+                <input type="email" class="form-control" [(ngModel)]="deleteData.email" name="deleteEmail" required />
+            </div>
+
+            <div class="mb-3">
+                <label>Rol del usuario</label>
+                <select class="form-select" [(ngModel)]="deleteData.role" name="deleteRole" required>
+                    <option value="">Selecciona un rol</option>
+                    <option value="admin">Admin</option>
+                    <option value="candidate">Candidate</option>
+                    <option value="company">Company</option>
+                </select>
+            </div>
+
+            <button class="btn btn-danger mt-2" type="submit" [disabled]="!deleteForm.form.valid">
+                Eliminar Usuario
+            </button>
+        </form>
+
+
+    </div>

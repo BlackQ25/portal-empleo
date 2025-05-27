@@ -46,4 +46,12 @@ export class LayoutComponent implements OnInit {
   goToApplications() {
     this.router.navigate(['/applications']);
   }
+
+  goToManagement(){
+    this.router.navigate(['/admin-management']);
+  }
+
+  goToUsersCatalog(){
+    this.router.navigate(['/users-catalog']);
+  }
 }
