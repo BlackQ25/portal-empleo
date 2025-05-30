@@ -24,22 +24,30 @@
   [class.sidebar-closed]="!isSidebarOpen"
 >
   <div class="p-3">
-    <h5 >Tablones</h5>
+    <h5>Tablones</h5>
     <ul class="list-unstyled">
       <li class="mb-2" (click)="goHome()">- Tablón de Ofertas</li>
     </ul>
-    <br>
-    <h5>Espacio Personal</h5>
-    <ul class="list-unstyled">
-      <li class="mb-2" (click)="goToProfile()">- Perfil</li>
-      <li class="mb-2" (click)="goToApplications()" *ngIf="role === 'candidate'">- Inscripciones</li>
-    </ul>
-    <br>
-    <h5>Gestión de administración</h5>
-    <ul class="list-unstyled">
-      <li class="mb-2" (click)="goToManagement()">- Gestión admin</li>
-      <li class="mb-2" (click)="goToUsersCatalog()">- Gestión de usuarios</li>
-    </ul>
+    <div>
+      <h5>Espacio Personal</h5>
+      <ul class="list-unstyled">
+        <li class="mb-2" (click)="goToProfile()">- Perfil</li>
+        <li
+          class="mb-2"
+          (click)="goToApplications()"
+        >
+          - Inscripciones
+        </li>
+        <li class="mb-2">- Carpeta</li>
+      </ul>
+    </div>
+    <div *ngIf="role === 'admin'">
+      <h5>Gestión de administración</h5>
+      <ul class="list-unstyled">
+        <li class="mb-2" (click)="goToManagement()">- Gestión admin</li>
+        <li class="mb-2" (click)="goToUsersCatalog()">- Gestión de usuarios</li>
+      </ul>
+    </div>
   </div>
 </div>
 
@@ -50,7 +58,7 @@
     'content-full': !isSidebarOpen
   }"
 >
-  <div class="p-4 ">
+  <div class="p-4">
     <router-outlet></router-outlet>
   </div>
 </div>

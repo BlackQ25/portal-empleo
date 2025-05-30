@@ -4,10 +4,10 @@ import { BaseService } from '../../service/base.service';
 @Component({
   selector: 'app-users-catalog',
   templateUrl: './users-catalog.component.html',
-  styleUrl: './users-catalog.component.scss'
+  styleUrls: ['./users-catalog.component.scss']
 })
-export class UsersCatalogComponent implements OnInit{
-adminData = {
+export class UsersCatalogComponent implements OnInit {
+  adminData = {
     email: '',
     password: '',
     name: ''
@@ -19,16 +19,18 @@ adminData = {
   };
 
   allUsers: any[] = [];
+  candidates: any[] = [];
+  companies: any[] = [];
+  admins: any[] = [];
+
+  activeTab: string = 'candidate';
 
   showSuccessToast = false;
   showErrorToast = false;
-
   showDeleteSuccess = false;
   showDeleteError = false;
 
-  constructor(
-    private baseService: BaseService,
-  ) { }
+  constructor(private baseService: BaseService) {}
 
   ngOnInit(): void {
     this.loadUsers();
@@ -38,6 +40,10 @@ adminData = {
     this.baseService.getAllUsers().subscribe({
       next: (users) => {
         this.allUsers = users;
+        this.candidates = users.filter(u => u.role === 'candidate');
+        this.companies = users.filter(u => u.role === 'company');
+        this.admins = users.filter(u => u.role === 'admin');
+        console.log('Usuarios cargados:', this.allUsers);
       },
       error: () => {
         console.error('Error al cargar usuarios');
@@ -58,7 +64,6 @@ adminData = {
     }
 
     const id = user.id;
-
     let deleteCall;
 
     switch (role) {
@@ -106,19 +111,19 @@ adminData = {
     };
   }
 
-  closeSuccessToast() {
+  closeSuccessToast(): void {
     this.showSuccessToast = false;
   }
 
-  closeErrorToast() {
+  closeErrorToast(): void {
     this.showErrorToast = false;
   }
 
-  closeDeleteSuccess() {
+  closeDeleteSuccess(): void {
     this.showDeleteSuccess = false;
   }
 
-  closeDeleteError() {
+  closeDeleteError(): void {
     this.showDeleteError = false;
   }
 }
