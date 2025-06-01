@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseService } from '../../service/base.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-users-catalog',
@@ -30,7 +31,10 @@ export class UsersCatalogComponent implements OnInit {
   showDeleteSuccess = false;
   showDeleteError = false;
 
-  constructor(private baseService: BaseService) {}
+  constructor(
+    private baseService: BaseService,
+    private router: Router  
+  ) {}
 
   ngOnInit(): void {
     this.loadUsers();
@@ -125,5 +129,9 @@ export class UsersCatalogComponent implements OnInit {
 
   closeDeleteError(): void {
     this.showDeleteError = false;
+  }
+
+   goToUserDetails(): void {
+      this.router.navigate(['/user-details']);
   }
 }

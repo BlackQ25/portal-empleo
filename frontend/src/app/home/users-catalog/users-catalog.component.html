@@ -17,7 +17,7 @@
     </div>
   </div>
 
-  <!-- Toast de error al eliminar -->
+
   <div
     class="toast show align-items-center text-white bg-danger border-0 mb-3"
     role="alert"
@@ -74,27 +74,25 @@
   </form>
 </div>
 
-<!-- Bloque: Catálogo de Usuarios -->
 <div class="card shadow p-4 my-5">
   <h2 class="text-center mb-4">Catálogo de Usuarios</h2>
 
-  <!-- Índice de roles -->
   <ul class="nav nav-tabs justify-content-center mb-4">
-    <li class="nav-item">
+    <li class="nav-item" style="cursor: pointer" >
       <a
         class="nav-link"
         [class.active]="activeTab === 'candidate'"
         (click)="activeTab = 'candidate'"
       >Personal</a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item" style="cursor: pointer" >
       <a
         class="nav-link"
         [class.active]="activeTab === 'company'"
         (click)="activeTab = 'company'"
       >Empresa</a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item" style="cursor: pointer" >
       <a
         class="nav-link"
         [class.active]="activeTab === 'admin'"
@@ -114,7 +112,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let user of candidates">
+        <tr *ngFor="let user of candidates" (click)="goToUserDetails()">
           <td>{{ user.id }}</td>
           <td>{{ user.email }}</td>
         </tr>
@@ -149,7 +147,6 @@
         <tr>
           <th>ID</th>
           <th>Email</th>
-          <th></th>
         </tr>
       </thead>
       <tbody>

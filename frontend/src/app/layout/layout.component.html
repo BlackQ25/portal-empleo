@@ -1,10 +1,7 @@
 <!-- HEADER anclado en la posicion superior-->
 <div class="header">
-  <button
-    class="btn btn-outline-light d-flex align-items-center me-3"
-    (click)="toggleSidebar()"
-    style="border: none; background: transparent; font-size: 1.5rem"
-  >
+  <button class="btn btn-outline-light d-flex align-items-center me-3" (click)="toggleSidebar()"
+    style="border: none; background: transparent; font-size: 1.5rem">
     &#9776;
   </button>
   <div class="container header-content">
@@ -18,11 +15,7 @@
 </div>
 
 <!-- SIDEBAR  -->
-<div
-  class="sidebar text-white"
-  [class.sidebar-open]="isSidebarOpen"
-  [class.sidebar-closed]="!isSidebarOpen"
->
+<div class="sidebar text-white" [class.sidebar-open]="isSidebarOpen" [class.sidebar-closed]="!isSidebarOpen">
   <div class="p-3">
     <h5>Tablones</h5>
     <ul class="list-unstyled">
@@ -32,13 +25,10 @@
       <h5>Espacio Personal</h5>
       <ul class="list-unstyled">
         <li class="mb-2" (click)="goToProfile()">- Perfil</li>
-        <li
-          class="mb-2"
-          (click)="goToApplications()"
-        >
+        <li class="mb-2" (click)="goToApplications()" *ngIf="role === 'candidate'">
           - Inscripciones
         </li>
-        <li class="mb-2">- Carpeta</li>
+        <li class="mb-2" (click)="goToOffers()" *ngIf="role === 'company'">- Carpeta</li>
       </ul>
     </div>
     <div *ngIf="role === 'admin'">
@@ -52,12 +42,10 @@
 </div>
 
 <!-- CONTENIDO -->
-<div
-  [ngClass]="{
+<div [ngClass]="{
     'content-with-sidebar': isSidebarOpen,
     'content-full': !isSidebarOpen
-  }"
->
+  }">
   <div class="p-4">
     <router-outlet></router-outlet>
   </div>

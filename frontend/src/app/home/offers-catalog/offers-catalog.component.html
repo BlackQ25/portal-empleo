@@ -1,0 +1,37 @@
+<div class="container my-3">
+    <h2 class="text-center mb-4">Mis Ofertas</h2>
+
+    <div class="d-flex justify-content-end mb-3">
+        <button class="btn btn-primary" (click)="goToCreate()">
+            <i class="bi bi-plus-circle me-2"></i> Crear nueva oferta
+        </button>
+    </div>
+
+    <div class="card shadow p-4">
+        <table class="table table-striped table-bordered text-center mb-0">
+            <thead class="table-primary">
+                <tr>
+                    <th>Título</th>
+                    <th>Categoría</th>
+                    <th>Región</th>
+                    <th>Ciudad</th>
+                    <th>Fecha de publicación</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let offer of jobOffers" (click)="goToDetails(offer.id)" style="cursor: pointer;">
+                    <td>{{ offer.title }}</td>
+                    <td>{{ offer.category?.name }}</td>
+                    <td>{{ offer.state?.name }}</td>
+                    <td>{{ offer.city?.name }}</td>
+                    <td>{{ offer.publishedAt | date: 'dd/MM/yyyy' }}</td>
+                    <td class="d-none">{{ offer.id }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div *ngIf="jobOffers.length === 0" class="text-center mt-3">
+            No hay ofertas registradas para esta empresa.
+        </div>
+    </div>
+</div>

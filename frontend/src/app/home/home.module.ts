@@ -11,6 +11,8 @@ import { ApplyComponent } from './apply/apply.component';
 import { ApplicationsComponent } from './applications/applications.component';
 import { AdminManagementComponent } from './admin-management/admin-management.component';
 import { UsersCatalogComponent } from './users-catalog/users-catalog.component';
+import { OffersCatalogComponent } from './offers-catalog/offers-catalog.component';
+import { OffersCreateComponent } from './offers-create/offers-create.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { UsersCatalogComponent } from './users-catalog/users-catalog.component';
     ApplyComponent,
     ApplicationsComponent,
     AdminManagementComponent,
-    UsersCatalogComponent
+    UsersCatalogComponent,
+    OffersCatalogComponent,
+    OffersCreateComponent
   ],
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   exports: [
@@ -36,7 +40,9 @@ import { UsersCatalogComponent } from './users-catalog/users-catalog.component';
     ApplyComponent,
     ApplicationsComponent,
     AdminManagementComponent,
-    UsersCatalogComponent
+    UsersCatalogComponent,
+    OffersCatalogComponent,
+    OffersCreateComponent
   ],
 })
 export class HomeModule {}

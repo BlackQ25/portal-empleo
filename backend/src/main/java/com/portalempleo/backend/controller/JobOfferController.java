@@ -2,6 +2,7 @@ package com.portalempleo.backend.controller;
 
 import com.portalempleo.backend.model.*;
 import com.portalempleo.backend.service.*;
+import com.portalempleo.backend.dto.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,10 +48,13 @@ public class JobOfferController {
     }
 
     @PostMapping
-    public JobOffer createJobOffer(@RequestBody JobOffer jobOffer, @RequestParam Long userId) {
-        User user = userService.getUserById(userId);
-        return jobOfferService.saveJobOffer(jobOffer, user);
+    public ResponseEntity<JobOffer> createJobOffer(
+            @RequestBody JobOfferRequestDTO dto,
+            @RequestParam Long userId) {
+        JobOffer nueva = jobOfferService.createJobOffer(dto, userId);
+        return ResponseEntity.ok(nueva);
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteJobOffer(@PathVariable Long id, @RequestParam Long userId) {

@@ -12,6 +12,8 @@ import { ApplyComponent } from './home/apply/apply.component';
 import { ApplicationsComponent } from './home/applications/applications.component';
 import { AdminManagementComponent } from './home/admin-management/admin-management.component';
 import { UsersCatalogComponent } from './home/users-catalog/users-catalog.component';
+import { OffersCatalogComponent } from './home/offers-catalog/offers-catalog.component';
+import { OffersCreateComponent } from './home/offers-create/offers-create.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -68,6 +70,16 @@ const routes: Routes = [
       {
         path: 'users-catalog',
         component: UsersCatalogComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'offers-catalog',
+        component: OffersCatalogComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'offers-create',
+        component: OffersCreateComponent,
         canActivate: [AuthGuard],
       }
     ],

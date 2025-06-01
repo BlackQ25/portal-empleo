@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../enviroment/enviroment';
+import { environment } from '../../enviroment/enviroment';
 
 @Injectable({ providedIn: 'root' })
 export class BaseService {
@@ -16,7 +16,7 @@ export class BaseService {
     );
   }
 
-  getAllUsers(){
+  getAllUsers() {
     return this.http.get<any[]>(`${this.baseUrl}/user`);
   }
 
@@ -34,6 +34,10 @@ export class BaseService {
 
   getStates() {
     return this.http.get<any[]>(`${this.baseUrl}/state`);
+  }
+
+  getCities() {
+    return this.http.get<any[]>(`${this.baseUrl}/city`);
   }
 
   getContracts() {
@@ -102,5 +106,9 @@ export class BaseService {
   deleteCompany(userId: number) {
     return this.http.delete(`${this.baseUrl}/user/company/${userId}`);
   }
+
+  createJobOffer(data: any, userId: number) {
+  return this.http.post(`${this.baseUrl}/job-offer?userId=${userId}`, data);
+}
 
 }

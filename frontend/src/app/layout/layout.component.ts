@@ -54,4 +54,8 @@ export class LayoutComponent implements OnInit {
   goToUsersCatalog(){
     this.router.navigate(['/users-catalog']);
   }
+
+  goToOffers(){
+    this.router.navigate(['/offers-catalog']);
+  }
 }

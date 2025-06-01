@@ -29,7 +29,7 @@ export class CatalogComponent implements OnInit {
   constructor(
     private baseService: BaseService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadData();
@@ -70,7 +70,7 @@ export class CatalogComponent implements OnInit {
         offer.title.toLowerCase().includes(term) ||
         offer.company.toLowerCase().includes(term) ||
         offer.category.toLowerCase().includes(term);
-        offer.state.toLowerCase().includes(term) ||
+      offer.state.toLowerCase().includes(term) ||
         offer.contract.toLowerCase().includes(term);
 
       const matchesCategory =
@@ -141,7 +141,7 @@ export class CatalogComponent implements OnInit {
   }
 
   goToDetails(id: number): void {
-  this.router.navigate(['/catalog-item', id]);
-}
+    this.router.navigate(['/catalog-item', id]);
+  }
 
 }
