@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseService } from '../../service/base.service';
+import { environment } from '../../../enviroment/enviroment';
 
 @Component({
   selector: 'app-profile',
@@ -15,7 +16,7 @@ export class ProfileComponent implements OnInit {
   showSuccessToast = false;
   showErrorToast = false;
 
-  constructor(private baseService: BaseService) {}
+  constructor(private baseService: BaseService) { }
 
   ngOnInit(): void {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -28,6 +29,8 @@ export class ProfileComponent implements OnInit {
           this.baseService.getCandidateById(id).subscribe((data) => {
             this.profileData = data;
             this.isLoading = false;
+            console.log("datos del perfil:", data);
+            console.log("resume path: ", data.resumePath);
           });
           break;
         case 'company':
@@ -122,5 +125,18 @@ export class ProfileComponent implements OnInit {
           setTimeout(() => (this.showErrorToast = false), 4000);
         },
       });
+
   }
+
+  getResumeUrl(): string {
+  if (!this.profileData.resumePath) return '';
+  console.log("resume path: ", this.profileData.resumePath);
+
+  const parts = this.profileData.resumePath.split('\\'); // dividir por backslash
+  const filename = parts[parts.length - 1]; // tomar el último fragmento
+
+  return `${environment.url}/user/resume/${filename}`;
+}
+
+
 }

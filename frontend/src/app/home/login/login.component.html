@@ -4,42 +4,21 @@
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div class="form-fields">
-        <input
-          type="email"
-          formControlName="email"
-          placeholder="Correo electrónico"
-          required
-        />
-        <div
-          *ngIf="
-            loginForm.get('email')?.touched && loginForm.get('email')?.invalid
-          "
-          class="input-error"
-        >
-          <span *ngIf="loginForm.get('email')?.errors?.['required']"
-            >El correo es obligatorio.</span
-          >
-          <span *ngIf="loginForm.get('email')?.errors?.['email']"
-            >El formato del correo no es válido.</span
-          >
+        <input type="email" formControlName="email" placeholder="Correo electrónico" required />
+        <div *ngIf="formSubmitted && loginForm.get('email')?.invalid" class="input-error">
+          <span *ngIf="loginForm.get('email')?.errors?.['required']">
+            El correo es obligatorio.
+          </span>
+          <span *ngIf="loginForm.get('email')?.errors?.['email']">
+            El formato del correo no es válido.
+          </span>
         </div>
 
-        <input
-          type="password"
-          formControlName="password"
-          placeholder="Contraseña"
-          required
-        />
-        <div
-          *ngIf="
-            loginForm.get('password')?.touched &&
-            loginForm.get('password')?.invalid
-          "
-          class="input-error"
-        >
-          <span *ngIf="loginForm.get('password')?.errors?.['required']"
-            >La contraseña es obligatoria.</span
-          >
+        <input type="password" formControlName="password" placeholder="Contraseña" required />
+        <div *ngIf="formSubmitted && loginForm.get('password')?.invalid" class="input-error">
+          <span *ngIf="loginForm.get('password')?.errors?.['required']">
+            La contraseña es obligatoria.
+          </span>
         </div>
       </div>
 
@@ -49,7 +28,6 @@
       </div>
     </form>
 
-    <!-- Mensaje general de error -->
     <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
   </div>
 </div>

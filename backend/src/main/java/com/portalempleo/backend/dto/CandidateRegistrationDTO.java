@@ -1,8 +1,12 @@
 package com.portalempleo.backend.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CandidateRegistrationDTO {
     private String email;
     private String password;
@@ -10,8 +14,9 @@ public class CandidateRegistrationDTO {
     private String name;
     private String phone;
     private String address;
-    private String resume;
     private String skills;
     private String experience;
     private String birthDate;
+
 }
+

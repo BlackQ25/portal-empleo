@@ -24,10 +24,12 @@ public class Candidate {
 
     private String address;
 
-    private String resume;      // Puede ser ruta al archivo o texto
+    @Column(name = "resume_path")
+    private String resumePath;
+
     private String skills;
     private String experience;
 
     @Column(name = "fecha_nacimiento")
-    private String birthDate;   // O usa LocalDate si prefieres fechas
+    private String birthDate;
 }

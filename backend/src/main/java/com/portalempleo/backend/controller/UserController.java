@@ -3,9 +3,17 @@ package com.portalempleo.backend.controller;
 import com.portalempleo.backend.dto.*;
 import com.portalempleo.backend.model.*;
 import com.portalempleo.backend.service.UserService;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.List;
 
@@ -30,16 +38,37 @@ public class UserController {
         return ResponseEntity.ok(profileDTO);
     }
 
+    @GetMapping("/resume/{filename}")
+    public ResponseEntity<Resource> getResumeFile(@PathVariable String filename) {
+        try {
+            Path file = Paths.get("uploads/resumes").resolve(filename).normalize();
+            Resource resource = new UrlResource(file.toUri());
+
+            if (!resource.exists()) {
+                return ResponseEntity.notFound().build();
+            }
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_PDF)
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
+                    .body(resource);
+        } catch (IOException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         User user = userService.getUserById(id);
         return ResponseEntity.ok(user);
     }
 
-    @PostMapping("/register-candidate")
-    public ResponseEntity<Candidate> registerCandidate(@RequestBody CandidateRegistrationDTO dto) {
-        Candidate candidate = userService.registerCandidate(dto);
-        return ResponseEntity.ok(candidate);
+    @PostMapping(value = "/register-candidate", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Candidate> registerCandidate(
+            @RequestPart("dto") CandidateRegistrationDTO dto,
+            @RequestPart("resumeFile") MultipartFile resumeFile) {
+        return ResponseEntity.ok(userService.registerCandidate(dto, resumeFile));
     }
 
     @PostMapping("/register-company")

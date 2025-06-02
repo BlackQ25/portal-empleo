@@ -6,10 +6,17 @@ import com.portalempleo.backend.repository.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -52,7 +59,7 @@ public class UserService {
                         "name", candidate.getName(),
                         "phone", candidate.getPhone(),
                         "address", candidate.getAddress(),
-                        "resume", candidate.getResume(),
+                        "resume", candidate.getResumePath(),
                         "skills", candidate.getSkills(),
                         "experience", candidate.getExperience(),
                         "birthDate", candidate.getBirthDate()
@@ -100,30 +107,40 @@ public class UserService {
 
 
     @Transactional
-    public Candidate registerCandidate(CandidateRegistrationDTO dto) {
+    public Candidate registerCandidate(CandidateRegistrationDTO dto, MultipartFile resumeFile) {
         if (userRepository.existsByEmail(dto.getEmail())) {
             throw new RuntimeException("Email already in use");
         }
 
-        User user = new User();
-        user.setEmail(dto.getEmail());
-        user.setPassword(passwordEncoder.encode(dto.getPassword()));
-        user.setRole("candidate");
-        User savedUser = userRepository.save(user);
+        try {
+            User user = new User();
+            user.setEmail(dto.getEmail());
+            user.setPassword(passwordEncoder.encode(dto.getPassword()));
+            user.setRole("candidate");
+            User savedUser = userRepository.save(user);
 
-        Candidate candidate = new Candidate();
-        candidate.setUser(savedUser); // Mantener esto
-        candidate.setName(dto.getName());
-        candidate.setPhone(dto.getPhone());
-        candidate.setAddress(dto.getAddress());
-        candidate.setResume(dto.getResume());
-        candidate.setSkills(dto.getSkills());
-        candidate.setExperience(dto.getExperience());
-        candidate.setBirthDate(dto.getBirthDate());
+            String uploadsDir = "uploads/resumes";
+            Files.createDirectories(Paths.get(uploadsDir));
 
-        return candidateRepository.save(candidate);
+            String uniqueFilename = UUID.randomUUID().toString() + "_" + resumeFile.getOriginalFilename();
+            Path filePath = Paths.get(uploadsDir, uniqueFilename);
+            Files.copy(resumeFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+            Candidate candidate = new Candidate();
+            candidate.setUser(savedUser);
+            candidate.setName(dto.getName());
+            candidate.setPhone(dto.getPhone());
+            candidate.setAddress(dto.getAddress());
+            candidate.setSkills(dto.getSkills());
+            candidate.setExperience(dto.getExperience());
+            candidate.setBirthDate(dto.getBirthDate());
+            candidate.setResumePath(uniqueFilename);
+
+            return candidateRepository.save(candidate);
+        } catch (IOException e) {
+            throw new RuntimeException("Error al procesar el archivo", e);
+        }
     }
-
 
     @Transactional
     public Company registerCompany(CompanyRegistrationDTO dto) {
@@ -131,16 +148,14 @@ public class UserService {
             throw new RuntimeException("Email already in use");
         }
 
-        // Crear y guardar el usuario
         User user = new User();
         user.setEmail(dto.getEmail());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setRole("company");
         User savedUser = userRepository.save(user);
 
-        // Crear y guardar la empresa
         Company company = new Company();
-        company.setUser(savedUser); // esto es suficiente para el vínculo
+        company.setUser(savedUser); 
         company.setCompanyName(dto.getCompanyName());
         company.setCompanyDescription(dto.getCompanyDescription());
         company.setWebsite(dto.getWebsite());

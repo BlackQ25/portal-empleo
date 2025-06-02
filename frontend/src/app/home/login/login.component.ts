@@ -14,6 +14,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   errorMessage = '';
   isLoading = false;
+  formSubmitted = false;
 
   constructor(
     private fb: FormBuilder,
@@ -29,6 +30,7 @@ export class LoginComponent {
   }
 
   onSubmit(): void {
+    this.formSubmitted = true;
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;

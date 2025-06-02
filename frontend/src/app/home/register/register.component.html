@@ -1,25 +1,17 @@
 <!-- TOAST ÉXITO -->
-<div
-  class="toast align-items-center text-white bg-success border-0 position-fixed top-0 end-0 m-4"
-  *ngIf="showSuccessToast"
-  role="alert"
-  style="z-index: 1055; display: block; opacity: 1"
->
+<div class="toast align-items-center text-white bg-success border-0 position-fixed top-0 end-0 m-4"
+  *ngIf="showSuccessToast" role="alert" style="z-index: 1055; display: block; opacity: 1">
   <div class="d-flex justify-content-between align-items-center">
     <div class="toast-body">Registro completado correctamente.</div>
-    <a class="ms-3 me-2" (click)="goToLogin()">
+    <a class="ms-3 me-2 text-white" (click)="goToLogin()">
       Iniciar sesión
     </a>
   </div>
 </div>
 
 <!-- TOAST ERROR -->
-<div
-  class="toast align-items-center text-white bg-danger border-0 position-fixed top-0 end-0 m-4"
-  *ngIf="showErrorToast"
-  role="alert"
-  style="z-index: 1055; display: block; opacity: 1"
->
+<div class="toast align-items-center text-white bg-danger border-0 position-fixed top-0 end-0 m-4"
+  *ngIf="showErrorToast" role="alert" style="z-index: 1055; display: block; opacity: 1">
   <div class="d-flex justify-content-between align-items-center">
     <div class="toast-body">Ha ocurrido un error al registrar.</div>
   </div>
@@ -35,18 +27,10 @@
   </div>
 
   <div class="tab-selector">
-    <button
-      class="tab-button"
-      [class.active]="role === 'candidate'"
-      (click)="setRole('candidate')"
-    >
+    <button class="tab-button" [class.active]="role === 'candidate'" (click)="setRole('candidate')">
       Personal
     </button>
-    <button
-      class="tab-button"
-      [class.active]="role === 'company'"
-      (click)="setRole('company')"
-    >
+    <button class="tab-button" [class.active]="role === 'company'" (click)="setRole('company')">
       Empresa
     </button>
   </div>
@@ -55,89 +39,50 @@
   <form (ngSubmit)="register()" *ngIf="role">
     <div class="mb-3">
       <label>Email</label>
-      <input
-        type="email"
-        [(ngModel)]="user.email"
-        name="email"
-        class="form-control"
-        required
-      />
+      <input type="email" [(ngModel)]="user.email" name="email" class="form-control" required />
+      <div *ngIf="formSubmitted && !user.email" class="text-danger mt-1">
+        El correo es obligatorio.
+      </div>
     </div>
     <div class="mb-3">
       <label>Contraseña</label>
-      <input
-        type="password"
-        [(ngModel)]="user.password"
-        name="password"
-        class="form-control"
-        required
-      />
+      <input type="password" [(ngModel)]="user.password" name="password" class="form-control" required />
+      <div *ngIf="formSubmitted && !user.password" class="text-danger mt-1">
+        La contraseña es obligatoria.
+      </div>
     </div>
 
     <!-- Candidato -->
     <ng-container *ngIf="role === 'candidate'">
       <div class="mb-3">
         <label>Nombre</label>
-        <input
-          type="text"
-          [(ngModel)]="candidateData.name"
-          name="name"
-          class="form-control"
-        />
+        <input type="text" [(ngModel)]="candidateData.name" name="name" class="form-control" />
       </div>
       <div class="mb-3">
         <label>Teléfono</label>
-        <input
-          type="text"
-          [(ngModel)]="candidateData.phone"
-          name="phone"
-          class="form-control"
-        />
+        <input type="text" [(ngModel)]="candidateData.phone" name="phone" class="form-control" />
       </div>
       <div class="mb-3">
         <label>Dirección</label>
-        <input
-          type="text"
-          [(ngModel)]="candidateData.address"
-          name="address"
-          class="form-control"
-        />
-      </div>
-      <div class="mb-3">
-        <label>Currículum</label>
-        <input
-          type="text"
-          [(ngModel)]="candidateData.resume"
-          name="resume"
-          class="form-control"
-        />
-      </div>
-      <div class="mb-3">
-        <label>Habilidades</label>
-        <input
-          type="text"
-          [(ngModel)]="candidateData.skills"
-          name="skills"
-          class="form-control"
-        />
-      </div>
-      <div class="mb-3">
-        <label>Experiencia</label>
-        <input
-          type="text"
-          [(ngModel)]="candidateData.experience"
-          name="experience"
-          class="form-control"
-        />
+        <input type="text" [(ngModel)]="candidateData.address" name="address" class="form-control" />
       </div>
       <div class="mb-3">
         <label>Fecha de nacimiento</label>
-        <input
-          type="date"
-          [(ngModel)]="candidateData.birthDate"
-          name="birthDate"
-          class="form-control"
-        />
+        <input type="date" [(ngModel)]="candidateData.birthDate" name="birthDate" class="form-control" />
+      </div>
+      <div class="mb-3">
+        <label>Currículum (PDF)</label>
+        <input type="file" accept="application/pdf" (change)="onFileSelected($event)" class="form-control" />
+      </div>
+      <div class="mb-3">
+        <label>Habilidades</label>
+        <textarea [(ngModel)]="candidateData.skills" name="skills" class="form-control" rows="4"
+          placeholder="Describe tus habilidades técnicas, blandas, idiomas, etc."></textarea>
+      </div>
+      <div class="mb-3">
+        <label>Experiencia</label>
+        <textarea [(ngModel)]="candidateData.experience" name="experience" class="form-control" rows="4"
+          placeholder="Describe tu experiencia laboral o académica"></textarea>
       </div>
     </ng-container>
 
@@ -145,48 +90,27 @@
     <ng-container *ngIf="role === 'company'">
       <div class="mb-3">
         <label>Nombre de empresa</label>
-        <input
-          type="text"
-          [(ngModel)]="companyData.companyName"
-          name="companyName"
-          class="form-control"
-        />
+        <input type="text" [(ngModel)]="companyData.companyName" name="companyName" class="form-control" />
+        <div *ngIf="formSubmitted && !companyData.companyName" class="text-danger mt-1">
+          Este campo es obligatorio.
+        </div>
       </div>
       <div class="mb-3">
         <label>Descripción</label>
-        <input
-          type="text"
-          [(ngModel)]="companyData.companyDescription"
-          name="companyDescription"
-          class="form-control"
-        />
+        <textarea [(ngModel)]="companyData.companyDescription" name="companyDescription" class="form-control" rows="4"
+          placeholder="Describe la actividad de la empresa, su misión, etc."></textarea>
       </div>
       <div class="mb-3">
         <label>Sitio web</label>
-        <input
-          type="text"
-          [(ngModel)]="companyData.website"
-          name="website"
-          class="form-control"
-        />
+        <input type="text" [(ngModel)]="companyData.website" name="website" class="form-control" />
       </div>
       <div class="mb-3">
         <label>Teléfono</label>
-        <input
-          type="text"
-          [(ngModel)]="companyData.phone"
-          name="phoneCompany"
-          class="form-control"
-        />
+        <input type="text" [(ngModel)]="companyData.phone" name="phoneCompany" class="form-control" />
       </div>
       <div class="mb-3">
         <label>Dirección</label>
-        <input
-          type="text"
-          [(ngModel)]="companyData.address"
-          name="addressCompany"
-          class="form-control"
-        />
+        <input type="text" [(ngModel)]="companyData.address" name="addressCompany" class="form-control" />
       </div>
     </ng-container>
 

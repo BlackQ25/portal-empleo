@@ -108,7 +108,13 @@ export class BaseService {
   }
 
   createJobOffer(data: any, userId: number) {
-  return this.http.post(`${this.baseUrl}/job-offer?userId=${userId}`, data);
-}
+    return this.http.post(`${this.baseUrl}/job-offer?userId=${userId}`, data);
+  }
+
+  registerCandidateWithFile(formData: FormData) {
+    return this.http.post(`${this.baseUrl}/user/register-candidate`, formData);
+  }
+
+  
 
 }
