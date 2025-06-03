@@ -16,6 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/user")
@@ -99,6 +100,14 @@ public class UserController {
         userService.deleteCompanyByUserId(userId);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/update-password/{id}")
+    public ResponseEntity<?> updatePassword(@PathVariable Long id, @RequestBody Map<String, String> body) {
+        String newPassword = body.get("newPassword");
+        userService.updatePassword(id, newPassword);
+        return ResponseEntity.ok().build();
+    }
+
 
 
 

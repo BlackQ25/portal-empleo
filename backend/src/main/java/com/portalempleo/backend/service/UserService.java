@@ -203,6 +203,15 @@ public class UserService {
         userRepository.deleteById(userId);
     }
 
+    @Transactional
+    public void updatePassword(Long userId, String newPassword) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+    }
+
+
 
 
 

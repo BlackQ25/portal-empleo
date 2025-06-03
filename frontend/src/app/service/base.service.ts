@@ -6,7 +6,7 @@ import { environment } from '../../enviroment/enviroment';
 export class BaseService {
   private readonly baseUrl = environment.url;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   login(email: string, password: string) {
     return this.http.post(
@@ -115,6 +115,19 @@ export class BaseService {
     return this.http.post(`${this.baseUrl}/user/register-candidate`, formData);
   }
 
-  
+  updateUserPassword(userId: number, newPassword: string) {
+    return this.http.put(`${this.baseUrl}/user/update-password/${userId}`, {
+      newPassword,
+    });
+  }
 
+  updateUserProfileWithResume(id: number, formData: FormData) {
+    return this.http.put(`${this.baseUrl}/candidate/update-with-resume/${id}`, formData)
+  }
+
+  deleteResume(candidateId: number) {
+    return this.http.delete(
+      `${this.baseUrl}/candidate/delete-resume/${candidateId}`
+    );
+  }
 }

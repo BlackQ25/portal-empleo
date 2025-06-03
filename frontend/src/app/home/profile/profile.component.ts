@@ -15,8 +15,9 @@ export class ProfileComponent implements OnInit {
   originalData: any;
   showSuccessToast = false;
   showErrorToast = false;
+  selectedResumeFile: File | null = null;
 
-  constructor(private baseService: BaseService) { }
+  constructor(private baseService: BaseService) {}
 
   ngOnInit(): void {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -29,8 +30,8 @@ export class ProfileComponent implements OnInit {
           this.baseService.getCandidateById(id).subscribe((data) => {
             this.profileData = data;
             this.isLoading = false;
-            console.log("datos del perfil:", data);
-            console.log("resume path: ", data.resumePath);
+            console.log('datos del perfil:', data);
+            console.log('resume path: ', data.resumePath);
           });
           break;
         case 'company':
@@ -111,32 +112,76 @@ export class ProfileComponent implements OnInit {
       return;
     }
 
-    this.baseService
-      .updateUserProfile(this.role, id, this.profileData)
-      .subscribe({
+    if (this.selectedResumeFile) {
+      const formData = new FormData();
+      formData.append('resume', this.selectedResumeFile);
+      formData.append(
+        'data',
+        new Blob([JSON.stringify(this.profileData)], {
+          type: 'application/json',
+        })
+      );
+
+      this.baseService.updateUserProfileWithResume(id, formData).subscribe({
         next: () => {
           this.isEditing = false;
+          this.selectedResumeFile = null; // limpiar después de guardar
           this.showSuccessToast = true;
           setTimeout(() => (this.showSuccessToast = false), 4000);
         },
         error: (err) => {
-          console.error('Error al actualizar perfil:', err);
+          console.error('Error al actualizar perfil con currículum:', err);
           this.showErrorToast = true;
           setTimeout(() => (this.showErrorToast = false), 4000);
         },
       });
-
+    } else {
+      // Sin archivo: actualizar solo los datos
+      this.baseService
+        .updateUserProfile(this.role, id, this.profileData)
+        .subscribe({
+          next: () => {
+            this.isEditing = false;
+            this.showSuccessToast = true;
+            setTimeout(() => (this.showSuccessToast = false), 4000);
+          },
+          error: (err) => {
+            console.error('Error al actualizar perfil:', err);
+            this.showErrorToast = true;
+            setTimeout(() => (this.showErrorToast = false), 4000);
+          },
+        });
+    }
   }
 
   getResumeUrl(): string {
-  if (!this.profileData.resumePath) return '';
-  console.log("resume path: ", this.profileData.resumePath);
+    if (!this.profileData.resumePath) return '';
+    return `${environment.url}/user/resume/${this.profileData.resumePath}`;
+  }
 
-  const parts = this.profileData.resumePath.split('\\'); // dividir por backslash
-  const filename = parts[parts.length - 1]; // tomar el último fragmento
+  onResumeFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedResumeFile = input.files[0];
+    }
+  }
 
-  return `${environment.url}/user/resume/${filename}`;
-}
+  deleteResume(): void {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const id = user?.id;
 
+    if (!id) return;
 
+    this.baseService.deleteResume(id).subscribe({
+      next: () => {
+        this.profileData.resumePath = null;
+        this.showSuccessToast = true;
+        setTimeout(() => (this.showSuccessToast = false), 3000);
+      },
+      error: () => {
+        this.showErrorToast = true;
+        setTimeout(() => (this.showErrorToast = false), 3000);
+      },
+    });
+  }
 }

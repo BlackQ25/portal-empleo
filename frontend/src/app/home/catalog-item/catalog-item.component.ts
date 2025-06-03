@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseService } from '../../service/base.service';
+import { AuthService } from '../../service/auth.service';
 
 @Component({
   selector: 'app-catalog-item',
@@ -12,16 +13,19 @@ export class CatalogItemComponent implements OnInit {
   offerDetails: any;
   isLoading = true;
   hasError = false;
+  role: any;
 
   constructor(
     private route: ActivatedRoute,
     private baseService: BaseService,
+    private authService: AuthService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
     this.offerId = +this.route.snapshot.paramMap.get('id')!;
     this.getOfferDetails();
+    this.role = this.authService.getUserRole();
   }
 
   getOfferDetails(): void {
