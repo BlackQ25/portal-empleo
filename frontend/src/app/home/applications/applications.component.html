@@ -24,11 +24,11 @@
         </thead>
         <tbody>
           <tr *ngFor="let app of applications">
-            <td>{{ app.jobOffer?.title || '-' }}</td>
-            <td><strong>{{ app.jobOffer?.company?.companyName || '-' }}</strong></td>
+            <td>{{ app.jobOffer?.title}}</td>
+            <td (click)="goToUserDetails(app.jobOffer?.company?.userId)" style="cursor: pointer;"><strong>{{ app.jobOffer?.company?.companyName}}</strong></td>
             <td>{{ app.appliedAt | date : 'dd/MM/yyyy' }}</td>
             <td>
-              <span class="badge bg-primary">{{ app.status || 'pending' }}</span>
+              <span class="badge bg-primary">{{ app.status}}</span>
             </td>
           </tr>
         </tbody>
