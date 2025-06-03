@@ -20,8 +20,6 @@ export class OffersCatalogComponent implements OnInit {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     this.companyId = user?.id || null;
 
-    console.log('id: ', this.companyId);
-
     if (this.companyId) {
       this.loadJobOffers();
     }
@@ -30,7 +28,7 @@ export class OffersCatalogComponent implements OnInit {
   loadJobOffers(): void {
     this.baseService.getJobOffers().subscribe({
       next: (offers) => {
-        console.log('ofertas: ', offers)
+
         this.jobOffers = offers.filter((offer: any) => offer.company.userId === this.companyId);
       },
       error: () => {

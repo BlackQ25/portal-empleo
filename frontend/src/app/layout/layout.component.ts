@@ -23,7 +23,6 @@ export class LayoutComponent implements OnInit {
   ngOnInit(): void {
     this.userEmail = this.authService.getUserEmail();
     this.role = this.authService.getUserRole();
-    console.log('Rol del usuario:', this.role);
   }
 
   logout(): void {

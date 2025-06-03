@@ -47,8 +47,6 @@ export class CatalogComponent implements OnInit {
       this.states = states;
       this.contracts = contracts;
 
-      console.log('ofertas: ', offers)
-
       this.jobOffers = offers.map((offer: JobOffer) => ({
         title: offer.title,
         company: offer.company?.companyName || '',

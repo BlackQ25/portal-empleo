@@ -18,7 +18,6 @@ export class ApplicationsComponent implements OnInit {
 
     this.baseService.getApplicationsByUserId(userId).subscribe({
       next: (data) => {
-        console.log('Aplicaciones del usuario:', data);
         this.applications = data;
         this.loading = false;
       },

@@ -59,7 +59,6 @@ export class UsersCatalogComponent implements OnInit {
         this.filteredCandidates = [...this.candidates];
         this.filteredCompanies = [...this.companies];
         this.filteredAdmins = [...this.admins];
-        console.log('Usuarios cargados:', this.allUsers);
       },
       error: () => {
         console.error('Error al cargar usuarios');

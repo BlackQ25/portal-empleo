@@ -33,7 +33,6 @@ export class CatalogItemComponent implements OnInit {
   getOfferDetails(): void {
     this.baseService.getJobOfferById(this.offerId).subscribe({
       next: (data) => {
-        console.log('Detalles completos de la oferta:', data);
         this.offerDetails = data;
         this.isLoading = false;
       },

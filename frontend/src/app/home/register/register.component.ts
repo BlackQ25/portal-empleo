@@ -69,9 +69,6 @@ export class RegisterComponent {
       const formData = new FormData();
       formData.append('dto', new Blob([JSON.stringify(dto)], { type: 'application/json' }));
       formData.append('resumeFile', this.selectedFile!);
-      console.log('Archivo enviado:', this.selectedFile);
-      console.log('FormData DTO:', formData.get('dto'));
-      console.log('FormData resumeFile:', formData.get('resumeFile'));
 
 
       this.baseService.registerCandidateWithFile(formData).subscribe({

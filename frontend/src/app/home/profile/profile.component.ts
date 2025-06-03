@@ -30,8 +30,6 @@ export class ProfileComponent implements OnInit {
           this.baseService.getCandidateById(id).subscribe((data) => {
             this.profileData = data;
             this.isLoading = false;
-            console.log('datos del perfil:', data);
-            console.log('resume path: ', data.resumePath);
           });
           break;
         case 'company':
@@ -60,7 +58,6 @@ export class ProfileComponent implements OnInit {
   }
 
   cancelEdit(): void {
-    console.log('Cancelando edición… recargando datos originales');
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     const id = user?.id;
 

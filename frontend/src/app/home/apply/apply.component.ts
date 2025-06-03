@@ -62,8 +62,6 @@ export class ApplyComponent implements OnInit {
       status: 'pending',
     };
 
-    console.log('Payload que se envía:', applicationPayload);
-
     this.baseService.applyToOffer(applicationPayload).subscribe({
       next: () => {
         this.showSuccessToast = true;

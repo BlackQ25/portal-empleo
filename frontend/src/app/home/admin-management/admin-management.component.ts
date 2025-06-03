@@ -49,7 +49,6 @@ export class AdminManagementComponent implements OnInit {
   createAdmin(): void {
     this.baseService.registerAdmin(this.adminData).subscribe({
       next: () => {
-        console.log('Admin creado correctamente');
         this.showSuccessToast = true;
 
         this.clearAdminForm();
