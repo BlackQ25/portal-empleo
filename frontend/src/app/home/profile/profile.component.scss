@@ -1,1 +1,43 @@
-  
+  .tooltip-container {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-icon {
+  display: inline-block;
+  margin-left: 6px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid black;
+  text-align: center;
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 18px;
+  cursor: default;
+}
+
+.custom-tooltip {
+  position: absolute;
+  top: 120%;
+  left: 0;
+  background-color: white;
+  color: black;
+  padding: 10px 14px;
+  border-radius: 5px;
+  border: 1px solid black;
+  font-size: 13px;
+  white-space: nowrap;
+  z-index: 10;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  width: max-content;
+  max-width: 500px;
+  line-height: 2.5; 
+}
+
+.tooltip-container:hover .custom-tooltip {
+  visibility: visible;
+  opacity: 1;
+}
