@@ -1,0 +1,68 @@
+<div class="container my-5">
+  <h2 class="text-center mb-4">Editar Oferta</h2>
+
+  <div class="card shadow p-4">
+    <form (ngSubmit)="updateOffer()" #editForm="ngForm">
+      <div class="mb-3">
+        <label class="form-label">Título</label>
+        <input type="text" class="form-control" name="title" [(ngModel)]="offerData.title" required />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Descripción</label>
+        <textarea class="form-control" rows="3" name="description" [(ngModel)]="offerData.description" required></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Salario</label>
+        <input type="text" class="form-control" name="salary" [(ngModel)]="offerData.salary" />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Categoría</label>
+        <select class="form-select" name="categoryId" [(ngModel)]="offerData.categoryId" required>
+          <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Región</label>
+        <select class="form-select" name="stateId" [(ngModel)]="offerData.stateId" required>
+          <option *ngFor="let state of states" [value]="state.id">{{ state.name }}</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Ciudad</label>
+        <select class="form-select" name="cityId" [(ngModel)]="offerData.cityId">
+          <option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Contrato</label>
+        <select class="form-select" name="contractId" [(ngModel)]="offerData.contractId">
+          <option value="">Sin contrato</option>
+          <option *ngFor="let contract of contracts" [value]="contract.id">{{ contract.name }}</option>
+        </select>
+      </div>
+
+      <button class="btn btn-primary" type="submit" [disabled]="!editForm.form.valid">Actualizar Oferta</button>
+    </form>
+  </div>
+
+  <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+    <div *ngIf="showSuccess" class="toast show align-items-center text-white bg-success border-0 mb-2" role="alert">
+      <div class="d-flex justify-content-between">
+        <div class="toast-body">Oferta actualizada correctamente.</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" (click)="showSuccess = false"></button>
+      </div>
+    </div>
+    <div *ngIf="showError" class="toast show align-items-center text-white bg-danger border-0 mb-2" role="alert">
+      <div class="d-flex justify-content-between">
+        <div class="toast-body">Error al actualizar la oferta.</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" (click)="showError = false"></button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -23,6 +23,10 @@ export class UsersCatalogComponent implements OnInit {
   candidates: any[] = [];
   companies: any[] = [];
   admins: any[] = [];
+  searchText: string = '';
+  filteredCandidates: any[] = [];
+  filteredCompanies: any[] = [];
+  filteredAdmins: any[] = [];
 
   activeTab: string = 'candidate';
 
@@ -34,7 +38,11 @@ export class UsersCatalogComponent implements OnInit {
   selectedUserId: number | null = null;
   newPassword: string = '';
 
-  constructor(private baseService: BaseService, private router: Router) {}
+  showPasswordSuccess = false;
+  showPasswordError = false;
+
+
+  constructor(private baseService: BaseService, private router: Router) { }
 
   ngOnInit(): void {
     this.loadUsers();
@@ -47,6 +55,10 @@ export class UsersCatalogComponent implements OnInit {
         this.candidates = users.filter((u) => u.role === 'candidate');
         this.companies = users.filter((u) => u.role === 'company');
         this.admins = users.filter((u) => u.role === 'admin');
+
+        this.filteredCandidates = [...this.candidates];
+        this.filteredCompanies = [...this.companies];
+        this.filteredAdmins = [...this.admins];
         console.log('Usuarios cargados:', this.allUsers);
       },
       error: () => {
@@ -100,6 +112,28 @@ export class UsersCatalogComponent implements OnInit {
     });
   }
 
+  filterUsers(): void {
+    const text = this.searchText.toLowerCase();
+
+    const matches = (user: any) =>
+      user.email.toLowerCase().includes(text) ||
+      user.id.toString().includes(text);
+
+    if (this.activeTab === 'candidate') {
+      this.filteredCandidates = this.candidates.filter(matches);
+    } else if (this.activeTab === 'company') {
+      this.filteredCompanies = this.companies.filter(matches);
+    } else if (this.activeTab === 'admin') {
+      this.filteredAdmins = this.admins.filter(matches);
+    }
+  }
+
+  changeTab(tab: string): void {
+    this.activeTab = tab;
+    this.searchText = '';
+    this.filterUsers(); // Restaura la lista completa para la pestaña activa
+  }
+
   clearAdminForm(): void {
     this.adminData = {
       email: '',
@@ -131,9 +165,9 @@ export class UsersCatalogComponent implements OnInit {
     this.showDeleteError = false;
   }
 
- goToUserDetails(userId: number): void {
-  this.router.navigate(['/user-details', userId]);
-}
+  goToUserDetails(userId: number): void {
+    this.router.navigate(['/user-details', userId]);
+  }
 
 
   openPasswordModal(user: any): void {
@@ -152,11 +186,23 @@ export class UsersCatalogComponent implements OnInit {
       .updateUserPassword(this.selectedUserId, this.newPassword)
       .subscribe({
         next: () => {
-          alert('Contraseña actualizada correctamente.');
+          this.showPasswordSuccess = true;
+          setTimeout(() => (this.showPasswordSuccess = false), 3000);
         },
         error: () => {
-          alert('Error al actualizar la contraseña.');
+          this.showPasswordError = true;
+          setTimeout(() => (this.showPasswordError = false), 3000);
         },
       });
   }
+
+  closePasswordSuccess(): void {
+    this.showPasswordSuccess = false;
+  }
+
+  closePasswordError(): void {
+    this.showPasswordError = false;
+  }
+
+
 }

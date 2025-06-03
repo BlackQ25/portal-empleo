@@ -16,16 +16,31 @@
                     <th>Región</th>
                     <th>Ciudad</th>
                     <th>Fecha de publicación</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let offer of jobOffers" (click)="goToDetails(offer.id)" style="cursor: pointer;">
-                    <td>{{ offer.title }}</td>
-                    <td>{{ offer.category?.name }}</td>
-                    <td>{{ offer.state?.name }}</td>
-                    <td>{{ offer.city?.name }}</td>
-                    <td>{{ offer.publishedAt | date: 'dd/MM/yyyy' }}</td>
-                    <td class="d-none">{{ offer.id }}</td>
+                <tr *ngFor="let offer of jobOffers">
+                    <td (click)="goToDetails(offer.id)" style="cursor: pointer;">{{ offer.title }}</td>
+                    <td (click)="goToDetails(offer.id)" style="cursor: pointer;">{{ offer.category?.name }}</td>
+                    <td (click)="goToDetails(offer.id)" style="cursor: pointer;">{{ offer.state?.name }}</td>
+                    <td (click)="goToDetails(offer.id)" style="cursor: pointer;">{{ offer.city?.name }}</td>
+                    <td (click)="goToDetails(offer.id)" style="cursor: pointer;">{{ offer.publishedAt | date:
+                        'dd/MM/yyyy' }}</td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-secondary dropdown-toggle" type="button"
+                                data-bs-toggle="dropdown">
+                                ⋮
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" (click)="editOffer(offer)"
+                                        style="cursor: pointer;">Actualizar</a></li>
+                                <li><a class="dropdown-item text-danger" (click)="deleteOffer(offer)"
+                                        style="cursor: pointer;">Eliminar</a></li>
+                            </ul>
+                        </div>
+                    </td>
                 </tr>
             </tbody>
         </table>

@@ -13,6 +13,7 @@ import { AdminManagementComponent } from './admin-management/admin-management.co
 import { UsersCatalogComponent } from './users-catalog/users-catalog.component';
 import { OffersCatalogComponent } from './offers-catalog/offers-catalog.component';
 import { OffersCreateComponent } from './offers-create/offers-create.component';
+import { OffersEditComponent } from './offers-edit/offers-edit.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { OffersCreateComponent } from './offers-create/offers-create.component';
     AdminManagementComponent,
     UsersCatalogComponent,
     OffersCatalogComponent,
-    OffersCreateComponent
+    OffersCreateComponent,
+    OffersEditComponent
   ],
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   exports: [

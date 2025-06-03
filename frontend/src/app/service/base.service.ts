@@ -6,7 +6,7 @@ import { environment } from '../../enviroment/enviroment';
 export class BaseService {
   private readonly baseUrl = environment.url;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   login(email: string, password: string) {
     return this.http.post(
@@ -130,4 +130,14 @@ export class BaseService {
       `${this.baseUrl}/candidate/delete-resume/${candidateId}`
     );
   }
+
+  deleteJobOffer(offerId: number, userId: number) {
+    const url = `${this.baseUrl}/job-offer/${offerId}?userId=${userId}`;
+    return this.http.delete<void>(url);
+  }
+
+  updateJobOffer(offerId: number, body: any, userId: number) {
+    return this.http.put(`${this.baseUrl}/job-offer/${offerId}?userId=${userId}`, body);
+  }
+
 }

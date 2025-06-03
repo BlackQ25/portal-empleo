@@ -75,6 +75,38 @@ public class JobOfferService {
         return jobOfferRepository.save(offer);
     }
 
+    public JobOffer updateJobOffer(Long id, JobOfferRequestDTO dto, User user) {
+        JobOffer offer = jobOfferRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Oferta no encontrada"));
+
+        if (!offer.getCompany().getUser().getId().equals(user.getId())) {
+            throw new RuntimeException("No autorizado para modificar esta oferta");
+        }
+
+        offer.setTitle(dto.getTitle());
+        offer.setDescription(dto.getDescription());
+        offer.setSalary(dto.getSalary());
+        offer.setPublishedAt(Timestamp.valueOf(dto.getPublishedAt())); // ← del DTO
+
+        offer.setCategory(categoryRepository.findById(dto.getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Categoría no encontrada")));
+
+        offer.setCity(cityRepository.findById(dto.getCityId())
+                .orElseThrow(() -> new RuntimeException("Ciudad no encontrada")));
+
+        offer.setState(stateRepository.findById(dto.getStateId())
+                .orElseThrow(() -> new RuntimeException("Región no encontrada")));
+
+        if (dto.getContractId() != null) {
+            offer.setContract(contractRepository.findById(dto.getContractId())
+                    .orElseThrow(() -> new RuntimeException("Contrato no encontrado")));
+        } else {
+            offer.setContract(null);
+        }
+
+        return jobOfferRepository.save(offer);
+    }
+    
     public void deleteJobOffer(Long id, User user) {
         jobOfferRepository.deleteById(id);
     }

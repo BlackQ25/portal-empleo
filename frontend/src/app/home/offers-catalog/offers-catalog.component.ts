@@ -13,8 +13,8 @@ export class OffersCatalogComponent implements OnInit {
 
   constructor(
     private baseService: BaseService,
-    private router : Router
-  ) {}
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -39,7 +39,26 @@ export class OffersCatalogComponent implements OnInit {
     });
   }
 
-  goToCreate(){
+  deleteOffer(offer: any): void {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const userId = user?.id;
+
+    if (confirm(`¿Estás seguro de que deseas eliminar la oferta "${offer.title}"?`)) {
+      this.baseService.deleteJobOffer(offer.id, userId).subscribe({
+        next: () => {
+          this.loadJobOffers();
+          alert('Oferta eliminada correctamente.');
+        },
+        error: () => alert('Error al eliminar la oferta.')
+      });
+    }
+  }
+
+  editOffer(offer: any): void {
+    this.router.navigate(['/offers-edit', offer.id]);
+  }
+
+  goToCreate() {
     this.router.navigate(['/offers-create']);
   }
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseService } from '../../service/base.service';
 import { AuthService } from '../../service/auth.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-catalog-item',
@@ -19,7 +20,8 @@ export class CatalogItemComponent implements OnInit {
     private route: ActivatedRoute,
     private baseService: BaseService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -53,4 +55,8 @@ export class CatalogItemComponent implements OnInit {
   goToApply(): void {
     this.router.navigate(['/apply', this.offerId]);
   }
+
+  goBack(): void {
+  this.location.back();
+}
 }

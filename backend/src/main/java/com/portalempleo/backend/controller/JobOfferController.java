@@ -59,7 +59,29 @@ public class JobOfferController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteJobOffer(@PathVariable Long id, @RequestParam Long userId) {
         User user = userService.getUserById(userId);
+
+        JobOffer offer = jobOfferService.getJobOfferById(id)
+                .orElseThrow(() -> new RuntimeException("Oferta no encontrada"));
+
+        if (!offer.getCompany().getUser().getId().equals(user.getId())) {
+            return ResponseEntity.status(403).build();
+        }
+
         jobOfferService.deleteJobOffer(id, user);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<JobOffer> updateJobOffer(
+            @PathVariable Long id,
+            @RequestBody JobOfferRequestDTO dto,
+            @RequestParam Long userId) {
+
+        User user = userService.getUserById(userId);
+        JobOffer updated = jobOfferService.updateJobOffer(id, dto, user);
+        return ResponseEntity.ok(updated);
+    }
+
+
+
 }
