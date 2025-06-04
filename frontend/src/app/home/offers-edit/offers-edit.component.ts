@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseService } from '../../service/base.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-offers-edit',
@@ -30,7 +31,8 @@ export class OffersEditComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private baseService: BaseService,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -97,5 +99,9 @@ export class OffersEditComponent implements OnInit {
         setTimeout(() => this.showError = false, 3000);
       }
     });
+  }
+
+  goBack(): void {
+    this.location.back()
   }
 }

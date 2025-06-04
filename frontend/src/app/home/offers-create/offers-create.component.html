@@ -1,7 +1,13 @@
 <div class="container my-5">
   <h2 class="text-center mb-4">Crear Nueva Oferta</h2>
 
-  <div class="card shadow p-4">
+  <div class="d-flex justify-content-end mt-4">
+    <button class="btn btn-outline-secondary btn-sm" (click)="goBack()">
+      ← Volver
+    </button>
+  </div>
+
+  <div class="card shadow p-4 mt-4">
     <form (ngSubmit)="createOffer()" #ofertaForm="ngForm">
       <div class="mb-3">
         <label for="title" class="form-label">Título</label>

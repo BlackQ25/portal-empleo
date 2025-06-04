@@ -48,6 +48,10 @@
       <label class="form-label">Dirección</label>
       <input type="text" class="form-control mb-3" [(ngModel)]="profileData.address" [disabled]="!isEditing" />
 
+
+      <label class="form-label">Fecha de nacimiento</label>
+      <input type="date" class="form-control mb-3" [(ngModel)]="profileData.birthDate" [disabled]="!isEditing" />
+
       <label class="form-label">Currículum</label>
       <div class="mb-3">
         <a *ngIf="profileData.resumePath" [href]="getResumeUrl()" target="_blank"
@@ -64,8 +68,6 @@
           (change)="onResumeFileSelected($event)" />
       </div>
 
-      <label class="form-label">Fecha de nacimiento</label>
-      <input type="date" class="form-control mb-3" [(ngModel)]="profileData.birthDate" [disabled]="!isEditing" />
     </div>
 
     <div class="col-md-6">

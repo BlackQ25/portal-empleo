@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseService } from '../../service/base.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-offers-create',
@@ -26,7 +27,7 @@ export class OffersCreateComponent implements OnInit {
   showSuccessToast = false;
   showErrorToast = false;
 
-  constructor(private baseService: BaseService, private router: Router) { }
+  constructor(private baseService: BaseService, private router: Router, private location: Location) {}
 
   ngOnInit(): void {
     this.loadCategories();
@@ -92,5 +93,9 @@ export class OffersCreateComponent implements OnInit {
 
   closeErrorToast() {
     this.showErrorToast = false;
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 }
