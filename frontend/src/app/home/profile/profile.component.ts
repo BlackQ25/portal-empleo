@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseService } from '../../service/base.service';
 import { environment } from '../../../enviroment/enviroment';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-profile',
@@ -17,7 +18,10 @@ export class ProfileComponent implements OnInit {
   showErrorToast = false;
   selectedResumeFile: File | null = null;
 
-  constructor(private baseService: BaseService) {}
+  constructor(
+    private baseService: BaseService,
+    private location: Location
+  ) { }
 
   ngOnInit(): void {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -103,12 +107,6 @@ export class ProfileComponent implements OnInit {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     const id = user?.id;
 
-    if (!id || this.role === 'admin') {
-      console.warn('Rol no editable o ID inválido');
-      this.isEditing = false;
-      return;
-    }
-
     if (this.selectedResumeFile) {
       const formData = new FormData();
       formData.append('resume', this.selectedResumeFile);
@@ -122,34 +120,38 @@ export class ProfileComponent implements OnInit {
       this.baseService.updateUserProfileWithResume(id, formData).subscribe({
         next: () => {
           this.isEditing = false;
-          this.selectedResumeFile = null; // limpiar después de guardar
+          this.selectedResumeFile = null;
           this.showSuccessToast = true;
-          setTimeout(() => (this.showSuccessToast = false), 4000);
+          setTimeout(() => {
+            this.showSuccessToast = false;
+            window.location.reload(); 
+          }, 3000);
         },
         error: (err) => {
           console.error('Error al actualizar perfil con currículum:', err);
           this.showErrorToast = true;
-          setTimeout(() => (this.showErrorToast = false), 4000);
+          setTimeout(() => (this.showErrorToast = false), 3000);
         },
       });
     } else {
-      // Sin archivo: actualizar solo los datos
-      this.baseService
-        .updateUserProfile(this.role, id, this.profileData)
-        .subscribe({
-          next: () => {
-            this.isEditing = false;
-            this.showSuccessToast = true;
-            setTimeout(() => (this.showSuccessToast = false), 4000);
-          },
-          error: (err) => {
-            console.error('Error al actualizar perfil:', err);
-            this.showErrorToast = true;
-            setTimeout(() => (this.showErrorToast = false), 4000);
-          },
-        });
+      this.baseService.updateUserProfile(this.role, id, this.profileData).subscribe({
+        next: () => {
+          this.isEditing = false;
+          this.showSuccessToast = true;
+          setTimeout(() => {
+            this.showSuccessToast = false;
+            window.location.reload(); 
+          }, 3000);
+        },
+        error: (err) => {
+          console.error('Error al actualizar perfil:', err);
+          this.showErrorToast = true;
+          setTimeout(() => (this.showErrorToast = false), 3000);
+        },
+      });
     }
   }
+
 
   getResumeUrl(): string {
     if (!this.profileData.resumePath) return '';
